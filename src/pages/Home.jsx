@@ -69,7 +69,7 @@ function Home() {
                     </div>
                     <div className="w-inherted mt-10 flex justify-center items-center">
                     <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
-                    Subscribe to a newsletter
+                    Subscribe on event 
                   </button>
                   </div>
                     </div>
