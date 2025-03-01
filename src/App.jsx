@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, BrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Events from "./pages/Events";
@@ -17,10 +17,12 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Dashboard from "./dashboard/Dashboard";
 import Outlayer from "./components/Outlayer";
 import DashOutlayer from "./components/DashOutlayer";
+import Dash_events from "./dashboard/Dash_events";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
+  
     {/* <Navbar /> */}
     <main className="">
       <Routes>
@@ -43,7 +45,7 @@ function App() {
         <Route element={<DashOutlayer/>}>
         <Route path="/dashboard" element={<ProtectedRoute />}>
           <Route index element={<Dashboard />} />
-          <Route path="events" element={<Events />} />
+          <Route path="dash_events" element={<Dash_events />} />
           <Route path="speakers" element={<Speakers />} />
           <Route path="news" element={<News />} />
         </Route>
@@ -52,7 +54,8 @@ function App() {
       </Routes>
     </main>
     {/* <Footer /> */}
-  </Router>
+
+  </BrowserRouter>
   );
 }
 
