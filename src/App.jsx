@@ -9,8 +9,8 @@ import Sponsors from "./pages/Sponsors";
 import GetInvolved from "./pages/GetInvolved";
 import Contact from "./pages/Contact";
 import Gallery from "./pages/Gallery";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+// import Navbar from "./components/Navbar";
+// import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -21,6 +21,7 @@ import Dash_events from "./dashboard/Dash_events";
 
 function App() {
   return (
+
     <BrowserRouter>
   
     {/* <Navbar /> */}
