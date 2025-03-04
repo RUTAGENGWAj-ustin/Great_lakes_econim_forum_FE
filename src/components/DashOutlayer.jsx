@@ -11,11 +11,11 @@ function DashOutlayer() {
         <Sidebar>
             <SidebarItem icon={<LayoutDashboard size={20} />} text={"Dashboard"} active />
       <NavLink to={"dashboard/dash_events"}> <SidebarItem icon={<BarChart2 size={20} />} text={"Events"} /></NavLink>
-      <SidebarItem icon={<LayoutDashboard size={20} />} text={"speakers"} />
-      <SidebarItem icon={<LayoutDashboard size={20} />} text={"news"} />
-      <SidebarItem icon={<LayoutDashboard size={20} />} text={"Sponsors"} />
-      <SidebarItem icon={<LayoutDashboard size={20} />} text={"Gallery"} />
-      <SidebarItem icon={<LayoutDashboard size={20} />} text={"Topic"} />
+      <NavLink to={"dashboard/dash_speakers"}><SidebarItem icon={<LayoutDashboard size={20} />} text={"speakers"} /></NavLink>
+      <NavLink to={"dashboard/dash_news"}> <SidebarItem icon={<LayoutDashboard size={20} />} text={"news"} /></NavLink>
+      <NavLink to={"dashboard/dash_Sponsors"}> <SidebarItem icon={<LayoutDashboard size={20} />} text={"Sponsors"} /></NavLink>
+      <NavLink to={"dashboard/dash_Gallery"}> <SidebarItem icon={<LayoutDashboard size={20} />} text={"Gallery"} /></NavLink>
+      <NavLink to={"dashboard/dash_Topic"}><SidebarItem icon={<LayoutDashboard size={20} />} text={"Topic"} /></NavLink>
 
     </Sidebar>
   {/* <main className="flex flex-col  overflow-y-scroll h-screen w-full flex-grow p-4">

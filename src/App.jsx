@@ -18,6 +18,11 @@ import Dashboard from "./dashboard/Dashboard";
 import Outlayer from "./components/Outlayer";
 import DashOutlayer from "./components/DashOutlayer";
 import Dash_events from "./dashboard/Dash_events";
+import CreateEvent from "./dashboard/CreateEvent";
+import Dash_speakers from "./dashboard/Dash_speakers";
+import Dash_news from "./dashboard/Dash_news";
+import Dash_sponsors from "./dashboard/Dash_sponsors";
+import Dash_gallery from "./dashboard/Dash_gallery";
 
 function App() {
   return (
@@ -47,8 +52,12 @@ function App() {
         <Route path="/dashboard" element={<ProtectedRoute />}>
           <Route index element={<Dashboard />} />
           <Route path="dash_events" element={<Dash_events />} />
-          <Route path="speakers" element={<Speakers />} />
-          <Route path="news" element={<News />} />
+          <Route path="dash_speakers" element={<Dash_speakers />} />
+          <Route path="dash_news" element={<Dash_news />} />
+          <Route path="dash_gallery" element={<Dash_gallery />} />
+
+          <Route path="dash_sponsors" element={<Dash_sponsors/>} />
+          <Route path="/dashboard/create_event" element={<CreateEvent/>}/>
         </Route>
         </Route>
        

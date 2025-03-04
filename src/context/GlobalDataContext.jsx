@@ -28,7 +28,10 @@ export function GlobalDataProvider({ children }) {
     });
 
   const { data: authData, isLoading: authLoading, error: authError } = createQuery("authData", "auth");
+  console.log("auth:",authData);
+  
   const { data: eventsData, isLoading: eventsLoading, error: eventsError } = createQuery("eventsData", "events");
+  console.log("ddddd:",eventsData);
   
   const { data: speakersData, isLoading: speakersLoading, error: speakersError } = createQuery("speakersData", "speakers");
   const { data: topicsData, isLoading: topicsLoading, error: topicsError } = createQuery("topicsData", "topics");
