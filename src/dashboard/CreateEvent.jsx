@@ -1,23 +1,15 @@
-import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
-import Button from "../components/ui/Button";
-import Input from "../components/ui/Input";
-import Select from "../components/ui/Select";
-import Textarea from "../components/ui/Textarea";
-import Label from "../components/ui/Label";
+import React, { useState, useContext } from "react";
 import { GlobalDataContext } from "../context/GlobalDataContext";
+import Notiflix from "notiflix";
 
+const CreateEvent = ({ setShowModal }) => {
+  const { postEvent, speakersData, sponsorsData, categoryData, topicsData, isLoading } = useContext(GlobalDataContext);
 
+  if (isLoading) {
+    return <div>Loading events...</div>;
+  }
 
-const CreateEvent = ({setShowModal}) => {
-     const { speakersData,sponsorsData,categoryData,topicsData, isLoading } = useContext(GlobalDataContext);
-
-     if (isLoading) {
-        return <div>Loading events...</div>;
-      }
-//   const [showModal, setShowModal] = useState(false);
-  const [eventData, setEventData] = useState({
-    imageUrl: "",
+  const [formData, setFormData] = useState({
     name: "",
     category: "",
     description: "",
@@ -28,142 +20,160 @@ const CreateEvent = ({setShowModal}) => {
     sponsors: [],
   });
 
-  const [categories, setCategories] = useState([]);
-  const [topics, setTopics] = useState([]);
-  const [speakers, setSpeakers] = useState([]);
-  const [sponsors, setSponsors] = useState([]);
+  const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [categoryRes, topicRes, speakerRes, sponsorRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/categories"),
-          axios.get("http://localhost:5000/api/topics"),
-          axios.get("http://localhost:5000/api/speakers"),
-          axios.get("http://localhost:5000/api/sponsors"),
-        ]);
-        console.log("wwwwww:",categoryRes);
-        
-        setCategories(categoryRes.data);
-        setTopics(topicRes.data);
-        setSpeakers(speakerRes.data);
-        setSponsors(sponsorRes.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
-
+  // Handle input change
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setEventData((prev) => ({ ...prev, [name]: value }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Handle file selection
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  // Handle multiple selections correctly
   const handleMultiSelect = (e, field) => {
     const values = Array.from(e.target.selectedOptions, (option) => option.value);
-    setEventData((prev) => ({ ...prev, [field]: values }));
+    setFormData((prev) => ({ ...prev, [field]: values }));
   };
 
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("file", file);
-    try {
-      const response = await axios.post("/api/upload", formData);
-      setEventData((prev) => ({ ...prev, imageUrl: response.data.url }));
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
-  };
-
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!image) {
+      Notiflix.Notify.failure("Please select an image.");
+      return;
+    }
+  
+    setLoading(true);
     try {
-      await axios.post("/api/events", eventData);
-      alert("Event created successfully!");
-      setShowModal(false); // Close modal after submission
+      const token = localStorage.getItem("token");
+  
+      if (!token) {
+        Notiflix.Notify.failure("No token found. Please log in.");
+        setLoading(false);
+        return;
+      }
+  
+      // Prepare FormData
+      const data = new FormData();
+      data.append("image", image);
+      console.log("FormData (image):", image); // Check if the image is correct
+      console.log("data:",data);
+      // Append all form fields
+      Object.keys(formData).forEach((key) => {
+        if (Array.isArray(formData[key])) {
+          formData[key].forEach((item) => data.append(key, item));
+          console.log(`FormData (${key}):`, formData[key]); // Check array fields
+        } else {
+          data.append(key, formData[key]);
+          console.log(`FormData (${key}):`, formData[key]); // Check single fields
+        }
+      });
+    
+     
+      // Send POST request via context function
+      await postEvent("events", data, token);
+  
+      Notiflix.Notify.success("Event created successfully!");
+      setFormData({
+        name: "",
+        category: "",
+        description: "",
+        date: "",
+        location: "",
+        topics: [],
+        speakers: [],
+        sponsors: [],
+      });
+      setImage(null);
     } catch (error) {
       console.error("Error creating event:", error);
+      Notiflix.Notify.failure("Failed to create event. Please check your input.");
+    } finally {
+      setLoading(false);
     }
   };
+  
 
-  return ( 
+  return (
     <div className="absolute inset-0 h-screen bg-gray-800/10 flex justify-center overflow-y-auto">
-        <div className=" inset-0 pt-5 pb-5 grid justify-center items-center">
+      <div className=" inset-0 pt-5 pb-5 grid justify-center items-center">
         <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-1xl w-full relative">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Create Event</h2>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-gray-700 font-medium">Name</label>
-            <input type="text" name="name" value={eventData.name} onChange={handleChange} required 
-              className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
-          </div>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Create Event</h2>
 
-          <div>
-            <label className="block text-gray-700 font-medium">Category</label>
-            <select name="category" value={eventData.category} onChange={handleChange} required
-              className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none">
-              <option value="">Select Category</option>
-              {categoryData.map((cat) => (
-                <option key={cat._id} value={cat._id}>{cat.name}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium">Description</label>
-            <textarea name="description" value={eventData.description} onChange={handleChange}
-              className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-gray-700 font-medium">Date</label>
-              <input type="date" name="date" value={eventData.date} onChange={handleChange} required
-                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+              <label className="block text-gray-700 font-medium">Name</label>
+              <input type="text" name="name" value={formData.name} onChange={handleChange} required
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
             </div>
-            <div>
-              <label className="block text-gray-700 font-medium">Location</label>
-              <input type="text" name="location" value={eventData.location} onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
-            </div>
-          </div>
 
-          {[{ label: "Topics", name: "topics", options: topicsData },
-            { label: "Speakers", name: "speakers", options: speakersData },
-            { label: "Sponsors", name: "sponsors", options: sponsorsData }].map((field) => (
-            <div key={field.name}>
-              <label className="block text-gray-700 font-medium">{field.label}</label>
-              <select multiple name={field.name} onChange={(e) => handleMultiSelect(e, field.name)}
+            <div>
+              <label className="block text-gray-700 font-medium">Category</label>
+              <select name="category" value={formData.category} onChange={handleChange} required
                 className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none">
-                {field.options.map((option) => (
-                  <option key={option._id} value={option._id}>{option.name}</option>
+                <option value="">Select Category</option>
+                {categoryData.map((cat) => (
+                  <option key={cat._id} value={cat._id}>{cat.name}</option>
                 ))}
               </select>
             </div>
-          ))}
 
-          <div>
-            <label className="block text-gray-700 font-medium">Image Upload</label>
-            <input type="file" accept="image/*" onChange={handleFileUpload} required
-              className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
-          </div>
+            <div>
+              <label className="block text-gray-700 font-medium">Description</label>
+              <textarea name="description" value={formData.description} onChange={handleChange}
+                className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+            </div>
 
-          <div className="flex justify-between mt-6">
-            <button type="button" onClick={() => setShowModal(false)}
-              className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg transition-all">
-              Cancel
-            </button>
-            <button type="submit"
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition-all">
-              Create Event
-            </button>
-          </div>
-        </form>
-      </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-gray-700 font-medium">Date</label>
+                <input type="date" name="date" value={formData.date} onChange={handleChange} required
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-medium">Location</label>
+                <input type="text" name="location" value={formData.location} onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+              </div>
+            </div>
+
+            {[{ label: "Topics", name: "topics", options: topicsData },
+              { label: "Speakers", name: "speakers", options: speakersData },
+              { label: "Sponsors", name: "sponsors", options: sponsorsData }].map((field) => (
+              <div key={field.name}>
+                <label className="block text-gray-700 font-medium">{field.label}</label>
+                <select multiple name={field.name} onChange={(e) => handleMultiSelect(e, field.name)}
+                  className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none">
+                  {field.options.map((option) => (
+                    <option key={option._id} value={option._id}>{option.name}</option>
+                  ))}
+                </select>
+              </div>
+            ))}
+
+            <div>
+              <label className="block text-gray-700 font-medium">Image Upload</label>
+              <input type="file" accept="image/*" onChange={handleFileChange} required
+                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+            </div>
+
+            <div className="flex justify-between mt-6">
+              <button type="button" onClick={() => setShowModal(false)}
+                className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg transition-all">
+                Cancel
+              </button>
+              <button type="submit" disabled={loading}
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition-all">
+                {loading ? "Creating..." : "Create Event"}
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
   );
 };
