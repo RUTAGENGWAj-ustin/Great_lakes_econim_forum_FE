@@ -15,13 +15,14 @@ const CreateEvent = ({ setShowModal }) => {
     description: "",
     date: "",
     location: "",
-    topics: [],
-    speakers: [],
+    topics:[],
+    speakers:[],
     sponsors: [],
   });
 
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   // Handle input change
   const handleChange = (e) => {
@@ -35,68 +36,46 @@ const CreateEvent = ({ setShowModal }) => {
 
   // Handle multiple selections correctly
   const handleMultiSelect = (e, field) => {
-    const values = Array.from(e.target.selectedOptions, (option) => option.value);
+    const  values = Array.from(e.target.selectedOptions, (option) => option.value);
     setFormData((prev) => ({ ...prev, [field]: values }));
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!image) {
-      Notiflix.Notify.failure("Please select an image.");
+
+    // Validate if image is selected
+    if (!formData.image) {
+      setError('Image is required');
       return;
     }
-  
-    setLoading(true);
+
+    // Clear error if image is selected
+    setError('');
+
+    const formDataToSend = new FormData();
+    formDataToSend.append('name', formData.name);
+    formDataToSend.append('category', formData.category);
+    formDataToSend.append('description', formData.description);
+    formDataToSend.append('date', formData.date);
+    formDataToSend.append('location', formData.location);
+    formDataToSend.append('topics', JSON.stringify(formData.topics.split(',')));
+    formDataToSend.append('speakers', JSON.stringify(formData.speakers.split(',')));
+    formDataToSend.append('sponsors', JSON.stringify(formData.sponsors.split(',')));
+    formDataToSend.append('image', formData.image);
+
     try {
-      const token = localStorage.getItem("token");
-  
-      if (!token) {
-        Notiflix.Notify.failure("No token found. Please log in.");
-        setLoading(false);
-        return;
-      }
-  
-      // Prepare FormData
-      const data = new FormData();
-      data.append("image", image);
-      console.log("FormData (image):", image); // Check if the image is correct
-      console.log("data:",data);
-      // Append all form fields
-      Object.keys(formData).forEach((key) => {
-        if (Array.isArray(formData[key])) {
-          formData[key].forEach((item) => data.append(key, item));
-          console.log(`FormData (${key}):`, formData[key]); // Check array fields
-        } else {
-          data.append(key, formData[key]);
-          console.log(`FormData (${key}):`, formData[key]); // Check single fields
-        }
+      const response = await axios.post('http://localhost:5000/api/events', formDataToSend, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${localStorage.getItem('token')}`, // Assuming JWT is stored in localStorage
+        },
       });
-    
-     
-      // Send POST request via context function
-      await postEvent("events", data, token);
-  
-      Notiflix.Notify.success("Event created successfully!");
-      setFormData({
-        name: "",
-        category: "",
-        description: "",
-        date: "",
-        location: "",
-        topics: [],
-        speakers: [],
-        sponsors: [],
-      });
-      setImage(null);
+      console.log('Event created:', response.data);
     } catch (error) {
-      console.error("Error creating event:", error);
-      Notiflix.Notify.failure("Failed to create event. Please check your input.");
-    } finally {
-      setLoading(false);
+      console.error('Error creating event:', error.response.data);
     }
   };
-  
 
   return (
     <div className="absolute inset-0 h-screen bg-gray-800/10 flex justify-center overflow-y-auto">
@@ -131,8 +110,14 @@ const CreateEvent = ({ setShowModal }) => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-gray-700 font-medium">Date</label>
-                <input type="date" name="date" value={formData.date} onChange={handleChange} required
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none" />
+                <input
+  type="datetime-local"
+  name="date"
+  value={formData.date ? formData.date.slice(0, 16) : ''} // Format the value to match 'YYYY-MM-DDTHH:MM'
+  onChange={handleChange}
+  required
+  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
+/>
               </div>
               <div>
                 <label className="block text-gray-700 font-medium">Location</label>
