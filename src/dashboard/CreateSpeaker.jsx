@@ -1,11 +1,15 @@
-import React,{useState} from 'react'
+import React, { useState, useContext } from 'react';
+import { GlobalDataContext } from '../context/GlobalDataContext';
+import Notiflix from 'notiflix';
 
 function CreateSpeaker({ setShowModal }) {
+  const { postSpeaker } = useContext(GlobalDataContext);
+
   const [speakerData, setSpeakerData] = useState({
     name: "",
     bio: "",
     expertise: "",
-    image: "",
+    image: null, // Store file instead of string
   });
 
   const handleChange = (event) => {
@@ -15,21 +19,44 @@ function CreateSpeaker({ setShowModal }) {
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
-    console.log("Selected file:", file);
-    // File upload logic can be added here
+    setSpeakerData((prevData) => ({ ...prevData, image: file }));
   };
 
-  const handleSubmit = (event) => {
+
+
+const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Submitting Speaker Data:", speakerData);
-    // API call to submit speakerData can be added here
-  };
+
+    // Create FormData object for file upload
+    const formData = new FormData();
+    formData.append("name", speakerData.name);
+    formData.append("bio", speakerData.bio);
+    formData.append("expertise", speakerData.expertise);
+    if (speakerData.image) {
+      formData.append("image", speakerData.image);
+    }
+
+    try {
+      await postSpeaker(formData); // Call API function
+
+      // Show success notification
+      Notiflix.Notify.success("Speaker created successfully!");
+
+      setShowModal(false); // Close modal after successful submission
+    } catch (error) {
+      console.error("Error submitting speaker:", error);
+
+      // Show error notification
+      Notiflix.Notify.failure("Failed to create speaker. Please try again.");
+    }
+};
+
 
   return (
     <div className="absolute inset-0 bg-gray-800/10 flex justify-center h-screen items-center p-4 overflow-y-auto">
       <div className="bg-white p-8 rounded-2xl shadow-2xl max-w-lg w-full relative">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Create Speaker</h2>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-gray-700 font-medium">Name</label>
@@ -71,5 +98,4 @@ function CreateSpeaker({ setShowModal }) {
   );
 }
 
-
-export default CreateSpeaker
+export default CreateSpeaker;

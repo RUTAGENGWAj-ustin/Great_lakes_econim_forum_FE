@@ -19,9 +19,9 @@ const fetchData = async (endpoint) => {
 };
 
 // Function to send a POST request
-const createPost = (endpoint) => async (data, token) => {
+const createPost = (endpoint) => async (data) => {
   const response = await axios.post(`${API_BASE_URL}/${endpoint}`, data, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
   });
   return response.data;
 };

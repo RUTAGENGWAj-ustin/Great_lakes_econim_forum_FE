@@ -7,6 +7,8 @@ function Dash_speakers() {
 
       const { speakersData, isLoading } = useContext(GlobalDataContext);
       const [showModal, setShowModal] = useState(false);
+
+      let eventurl="http://localhost:5000";
     
       if (isLoading) {
         return <div>Loading events...</div>;
@@ -41,7 +43,8 @@ function Dash_speakers() {
               <td className="p-3">{event?.name}</td>
               <td className="p-3">{event?.bio}</td>
               <td className="p-3">{event?.expertise}</td>
-              <td className="p-3"><img src={event?.image}/></td>
+              <td className="p-3"><img src={event?.image} className="w-10 h-10"/></td>
+      
             
             </tr>
           ))}
