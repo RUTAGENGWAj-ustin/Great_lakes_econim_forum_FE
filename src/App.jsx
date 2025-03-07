@@ -23,6 +23,7 @@ import Dash_speakers from "./dashboard/Dash_speakers";
 import Dash_news from "./dashboard/Dash_news";
 import Dash_sponsors from "./dashboard/Dash_sponsors";
 import Dash_gallery from "./dashboard/Dash_gallery";
+import Dash_category from "./dashboard/Dash_category";
 
 function App() {
   return (
@@ -55,7 +56,7 @@ function App() {
           <Route path="dash_speakers" element={<Dash_speakers />} />
           <Route path="dash_news" element={<Dash_news />} />
           <Route path="dash_gallery" element={<Dash_gallery />} />
-
+          <Route path="dash_category" element={<Dash_category/>}/>
           <Route path="dash_sponsors" element={<Dash_sponsors/>} />
           <Route path="/dashboard/create_event" element={<CreateEvent/>}/>
         </Route>
