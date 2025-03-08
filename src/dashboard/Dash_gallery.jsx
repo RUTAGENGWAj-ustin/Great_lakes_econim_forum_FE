@@ -1,12 +1,27 @@
 import React,{ useEffect, useState, useContext } from 'react'
 import { GlobalDataContext } from "../context/GlobalDataContext";
 import CreateGallery from './CreateGallery';
+import EditGallery from './EditGallery';
 import { PenLineIcon, Trash2 } from "lucide-react";
 import Notiflix from 'notiflix';
 
 function Dash_gallery() {
       const { galleryData, isLoading, deleteGallery } = useContext(GlobalDataContext);
      const [showModal, setShowModal] = useState(false);
+     const [showEditModal, setShowEditModal] = useState(false);
+     const [selectedGallery, setSelectedGallery] = useState(null);
+   
+     // Function to refresh the gallery list
+     const refreshGallery = () => {
+       console.log("Refreshing gallery...");
+       // Fetch or update gallery logic here
+     };
+   
+     // Function to handle editing a gallery item
+     const handleEditGallery = (item) => {
+       setSelectedGallery(item); // Set the gallery to edit
+       setShowEditModal(true); // Open the edit modal
+     };
     
       if (isLoading) {
         return <div>Loading events...</div>;
@@ -62,7 +77,7 @@ const handleDeleteImage = async (imageId) => {
                 <p className="mt-2 text-gray-700 text-center">{item.caption || "No caption provided"}</p>
                 <div className="w-full flex justify-center p-2">
                   <div className=' border-t-1 border-gray-300 min-w-30 p-3 flex justify-between'>
-                    <button className="text-green-600"><PenLineIcon size={20}/></button>
+                    <button className="text-green-600" onClick={() => handleEditGallery(item)}><PenLineIcon size={20}/></button>
                      <button className="text-red-600" onClick={() => handleDeleteImage(item._id)}><Trash2 size={20}/></button>
                      </div>
                     </div>
@@ -71,6 +86,13 @@ const handleDeleteImage = async (imageId) => {
             ))}
           </div>
           {showModal && ( <CreateGallery setShowModal={setShowModal} closeModal={() => setShowModal(false)} />)}
+          {showEditModal && (
+        <EditGallery
+          gallery={selectedGallery}
+          setShowModal={setShowEditModal}
+          refreshGallery={refreshGallery}
+        />
+      )}
         </div>
       );
     }
