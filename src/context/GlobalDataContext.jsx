@@ -29,7 +29,7 @@ const createPost = (endpoint) => async (data) => {
 // Function to send a PUT request
 const createPut = (endpoint) => async (id, data, token) => {
   const response = await axios.put(`${API_BASE_URL}/${endpoint}/${id}`, data, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
   });
   return response.data;
 };
@@ -37,7 +37,7 @@ const createPut = (endpoint) => async (id, data, token) => {
 // Function to send a DELETE request
 const createDelete = (endpoint) => async (id, token) => {
   await axios.delete(`${API_BASE_URL}/${endpoint}/${id}`, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
   });
 };
 

@@ -1,13 +1,59 @@
 import React,{useState,useContext} from 'react'
 import { GlobalDataContext } from "../context/GlobalDataContext";
 import CreateNews from './CreateNews';
+import EditNews from './EditNews';
+import { PenLineIcon, Trash2 } from "lucide-react";
+import Notiflix from 'notiflix';
+
+
 function Dash_news() {
-       const { newsData, isLoading } = useContext(GlobalDataContext);
-         const [showModal, setShowModal] = useState(false);
+       const { newsData, isLoading , deleteNews,putNews } = useContext(GlobalDataContext);
+       const [showModal, setShowModal] = useState(false);
+       const [showEditModal, setShowEditModal] = useState(false);
+       const [selectedNews, setSelectedNews] = useState(null);
         
           if (isLoading) {
             return <div>Loading events...</div>;
           }
+          const refreshNews = () => {
+            console.log("Refreshing news...");
+            // Fetch or update news logic here
+          };
+
+          const handleEditNews = (news) => {
+            setSelectedNews(news); // Set the news to edit
+            setShowEditModal(true); // Open the edit modal
+          };
+
+          const handleDeleteNews = async (NewsId) => {
+                      
+                      // Show confirmation dialog
+                      Notiflix.Confirm.show(
+                        'Delete News',
+                        'Are you sure you want to delete this News?',
+                        'Yes',
+                        'No',
+                        async () => {
+                          try {
+                            // Call deleteEvent from context
+                            await deleteNews(NewsId);
+                  
+                            // Show success notification
+                            Notiflix.Notify.success('News deleted successfully!');
+                          } catch (error) {
+                            console.error('Error deleting event:', error);
+                  
+                            // Show error notification
+                            Notiflix.Notify.failure(error.message || 'Error deleting News');
+                          }
+                        },
+                        () => {
+                          // User clicked "No" or dismissed the dialog
+                          Notiflix.Notify.info('Delete canceled');
+                        }
+                      );
+                };
+                
         
     return (
         <div className="container mx-auto p-6">
@@ -29,10 +75,24 @@ function Dash_news() {
                 <h3 className="text-xl font-semibold mt-2">{news.title}</h3>
                 <p className="text-gray-700 mt-2">{news.content.substring(0, 100)}...</p>
                 <p className="text-sm text-gray-500 mt-2">By {news.author || "Unknown"} on {new Date(news.date).toLocaleDateString()}</p>
+               <div className="w-full flex justify-center p-2">
+                <div className=' border-t-1 border-gray-300 min-w-30 p-3 flex justify-between'>
+                  <button className="text-green-600" onClick={() => handleEditNews(news)}><PenLineIcon size={20}/></button>
+                   <button className="text-red-600" onClick={() => handleDeleteNews(news._id)}><Trash2 size={20}/></button>
+                   </div></div>
+
               </div>
             ))}
           </div>
           {showModal && ( <CreateNews setShowModal={setShowModal} closeModal={() => setShowModal(false)} />)}
+          {showEditModal && (
+        <EditNews
+          news={selectedNews}
+          setShowModal={setShowEditModal}
+          refreshNews={refreshNews}
+          putNews={putNews}
+        />
+      )}
         </div>
       );
     }

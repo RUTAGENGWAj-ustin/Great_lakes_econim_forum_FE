@@ -1,14 +1,46 @@
 import React,{ useEffect, useState, useContext } from 'react'
 import { GlobalDataContext } from "../context/GlobalDataContext";
 import CreateGallery from './CreateGallery';
+import { PenLineIcon, Trash2 } from "lucide-react";
+import Notiflix from 'notiflix';
 
 function Dash_gallery() {
-      const { galleryData, isLoading } = useContext(GlobalDataContext);
+      const { galleryData, isLoading, deleteGallery } = useContext(GlobalDataContext);
      const [showModal, setShowModal] = useState(false);
     
       if (isLoading) {
         return <div>Loading events...</div>;
       }
+
+const handleDeleteImage = async (imageId) => {
+            
+            // Show confirmation dialog
+            Notiflix.Confirm.show(
+              'Delete Image',
+              'Are you sure you want to delete this Image?',
+              'Yes',
+              'No',
+              async () => {
+                try {
+                  // Call deleteEvent from context
+                  await deleteGallery(imageId);
+        
+                  // Show success notification
+                  Notiflix.Notify.success('Image deleted successfully!');
+                } catch (error) {
+                  console.error('Error deleting event:', error);
+        
+                  // Show error notification
+                  Notiflix.Notify.failure(error.message || 'Error deleting image');
+                }
+              },
+              () => {
+                // User clicked "No" or dismissed the dialog
+                Notiflix.Notify.info('Delete canceled');
+              }
+            );
+      };
+      
     
       return (
         <div className="container mx-auto p-6">
@@ -28,6 +60,13 @@ function Dash_gallery() {
               <div key={item._id} className="bg-white p-4 rounded-lg shadow-md">
                 <img src={item.imageUrl} alt={item.caption} className="w-full h-48 object-cover rounded-md" />
                 <p className="mt-2 text-gray-700 text-center">{item.caption || "No caption provided"}</p>
+                <div className="w-full flex justify-center p-2">
+                  <div className=' border-t-1 border-gray-300 min-w-30 p-3 flex justify-between'>
+                    <button className="text-green-600"><PenLineIcon size={20}/></button>
+                     <button className="text-red-600" onClick={() => handleDeleteImage(item._id)}><Trash2 size={20}/></button>
+                     </div>
+                    </div>
+                
               </div>
             ))}
           </div>

@@ -2,17 +2,62 @@ import React, { useState, useContext } from "react";
 import { GlobalDataContext } from "../context/GlobalDataContext";
 import CreateEvent from "./CreateEvent"; // Import the event creation form
 import CreateSpeaker from "./CreateSpeaker";
+import {PenLineIcon, Trash2 } from "lucide-react";
+import EditSpeaker from "./EditSpeaker";
+import Notiflix from "notiflix";
+
 
 function Dash_speakers() {
 
-      const { speakersData, isLoading } = useContext(GlobalDataContext);
+      const { speakersData, isLoading,deleteSpeaker } = useContext(GlobalDataContext);
       const [showModal, setShowModal] = useState(false);
+      const [showEditModal, setShowEditModal] = useState(false);
+      const [selectedSpeaker, setSelectedSpeaker] = useState(null);
 
       let eventurl="http://localhost:5000";
     
       if (isLoading) {
         return <div>Loading events...</div>;
       }
+      const refreshSpeakers = () => {
+        console.log("Refreshing speakers...");
+        // Fetch or update speakers logic here
+      };
+       // Function to handle editing a speaker
+  const handleEditSpeaker = (speaker) => {
+    setSelectedSpeaker(speaker); 
+    setShowEditModal(true); 
+  };
+
+      const handleDeleteSpeaker = async (speakerId) => {
+                  
+                  // Show confirmation dialog
+                  Notiflix.Confirm.show(
+                    'Delete Image',
+                    'Are you sure you want to delete this Speaker?',
+                    'Yes',
+                    'No',
+                    async () => {
+                      try {
+                        // Call deleteEvent from context
+                        await deleteSpeaker(speakerId);
+              
+                        // Show success notification
+                        Notiflix.Notify.success('Speaker deleted successfully!');
+                      } catch (error) {
+                        console.error('Error deleting Speaker:', error);
+              
+                        // Show error notification
+                        Notiflix.Notify.failure(error.message || 'Error deleting Speaker');
+                      }
+                    },
+                    () => {
+                      // User clicked "No" or dismissed the dialog
+                      Notiflix.Notify.info('Delete canceled');
+                    }
+                  );
+            };
+            
   return (
     <div className="relative container mx-auto p-4">
     <div className="flex justify-between p-2">
@@ -35,16 +80,22 @@ function Dash_speakers() {
             <th className="p-3 text-left">Biograph</th>
             <th className="p-3 text-left">Expertise</th>
             <th className="p-3 text-left">Profile</th>
+            <th className="p-3 text-left">Operations</th>
           </tr>
         </thead>
         <tbody>
-          {speakersData?.map((event) => (
-            <tr key={event._id} className="border-b hover:bg-gray-50">
-              <td className="p-3">{event?.name}</td>
-              <td className="p-3">{event?.bio}</td>
-              <td className="p-3">{event?.expertise}</td>
-              <td className="p-3"><img src={event?.image} className="w-10 h-10"/></td>
-      
+          {speakersData?.map((speaker) => (
+            <tr key={speaker._id} className="border-b hover:bg-gray-50">
+              <td className="p-3">{speaker?.name}</td>
+              <td className="p-3">{speaker?.bio}</td>
+              <td className="p-3">{speaker?.expertise}</td>
+              <td className="p-3"><img src={speaker?.image} className="w-10 h-10"/></td>
+              <td className="p-3">
+                <div className="w-full flex justify-between">
+                  <button className="text-green-600" onClick={() => handleEditSpeaker(speaker)}><PenLineIcon size={20}/></button> 
+                  <button className="text-red-600" onClick={() => handleDeleteSpeaker(speaker._id)}><Trash2 size={20}/></button>
+                  </div>
+                  </td>
             
             </tr>
           ))}
@@ -60,6 +111,13 @@ function Dash_speakers() {
       //   </div>
       // </div>
     )}
+     {showEditModal && (
+        <EditSpeaker
+          speaker={selectedSpeaker}
+          setShowModal={setShowEditModal}
+          refreshSpeakers={refreshSpeakers}
+        />
+      )}
   </div>
   )
 }

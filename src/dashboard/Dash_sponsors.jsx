@@ -2,13 +2,60 @@
 import React, {useState,useContext} from 'react';
 import { GlobalDataContext } from "../context/GlobalDataContext";
 import CreateSponsor from './CreateSponsor';
+import { PenLineIcon, Trash2 } from "lucide-react";
+import EditSponsor from './EditSponsor';
+import Notiflix from 'notiflix';
+
 function Dash_sponsors() {
-     const { sponsorsData, isLoading } = useContext(GlobalDataContext);
+     const { sponsorsData, isLoading,deleteSponsor } = useContext(GlobalDataContext);
       const [showModal, setShowModal] = useState(false);
+
+      const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedSponsor, setSelectedSponsor] = useState(null);
     
       if (isLoading) {
         return <div>Loading events...</div>;
       }
+
+      const refreshSponsors = () => {
+        console.log("Refreshing sponsors...");
+        // Fetch or update sponsors logic here
+      };
+
+      const handleEditSponsor = (sponsor) => {
+        setSelectedSponsor(sponsor); // Set the sponsor to edit
+        setShowEditModal(true); // Open the edit modal
+      };
+
+      const handleDeletesponsor = async (sponsorId) => {
+                  
+                  // Show confirmation dialog
+                  Notiflix.Confirm.show(
+                    'Delete Sponsor',
+                    'Are you sure you want to delete this Sponsor?',
+                    'Yes',
+                    'No',
+                    async () => {
+                      try {
+                        // Call deleteEvent from context
+                        await deleteSponsor(sponsorId);
+              
+                        // Show success notification
+                        Notiflix.Notify.success('Sponsor deleted successfully!');
+                      } catch (error) {
+                        console.error('Error deleting Sponsor:', error);
+              
+                        // Show error notification
+                        Notiflix.Notify.failure(error.message || 'Error deleting Sponsor');
+                      }
+                    },
+                    () => {
+                      // User clicked "No" or dismissed the dialog
+                      Notiflix.Notify.info('Delete canceled');
+                    }
+                  );
+            };
+            
     
     return (
         <div className="container mx-auto p-6">
@@ -35,10 +82,24 @@ function Dash_sponsors() {
                   </a>
                 )}
                 <p className="text-gray-700 mt-2">{sponsor.description}</p>
+                <div className="w-full flex justify-center p-2">
+                  <div className=' border-t-1 border-gray-300 min-w-30 p-3 flex justify-between'>
+                    <button className="text-green-600" onClick={() => handleEditSponsor(sponsor)}><PenLineIcon size={20}/></button> 
+                    <button className="text-red-600" onClick={() => handleDeletesponsor(sponsor._id)}><Trash2 size={20}/></button>
+                    </div>
+                    </div>
+                
               </div>
             ))}
           </div>
           {showModal && ( <CreateSponsor setShowModal={setShowModal} closeModal={() => setShowModal(false)} />)}
+          {showEditModal && (
+        <EditSponsor
+          sponsor={selectedSponsor}
+          setShowModal={setShowEditModal}
+          refreshSponsors={refreshSponsors}
+        />
+      )}
 
         </div>
       );
