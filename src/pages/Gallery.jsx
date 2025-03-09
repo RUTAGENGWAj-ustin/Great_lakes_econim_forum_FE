@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState ,useContext } from "react";
+import { GlobalDataContext } from "../context/GlobalDataContext";
+
 
 const images = [
   { event: "concert", imgUrl: "/speakers/kigali.jpg" },
@@ -8,18 +10,22 @@ const images = [
 ];
 
 function Gallery() {
+
+  const { galleryData, isLoading, deleteGallery,backendUrl, eventsData } = useContext(GlobalDataContext);
   const [filterEvent, setFilterEvent] = useState(""); // For filtering
-  const [filteredImages, setFilteredImages] = useState(images); // Displayed images
+  const [filteredImages, setFilteredImages] = useState(galleryData); // Displayed images
 
   // Function to handle filtering
   const handleFilterChange = (event) => {
     const selectedEvent = event.target.value;
+    console.log( "selectedEvent",selectedEvent);
+    
     setFilterEvent(selectedEvent);
 
     if (selectedEvent === "") {
-      setFilteredImages(images); // Show all if no filter selected
+      setFilteredImages(galleryData); // Show all if no filter selected
     } else {
-      setFilteredImages(images.filter((img) => img.event === selectedEvent));
+      setFilteredImages(galleryData.filter((img) => img.event === selectedEvent));
     }
   };
 
@@ -33,18 +39,21 @@ function Gallery() {
           onChange={handleFilterChange}
         >
           <option value="">All Events</option>
-          <option value="concert">Concert</option>
-          <option value="conference">Conference</option>
-          <option value="party">Party</option>
+              {eventsData?.map((event) => (
+                <option key={event._id} value={event._id}>
+                  {event.name}
+                </option>
+              ))}
+        
         </select>
       </div>
 
       {/* Display images */}
       <div className="grid gap-4 grid-cols-3 justify-center">
-        {filteredImages.length > 0 ? (
+        {filteredImages?.length > 0 ? (
           filteredImages.map((item, index) => (
             <div key={index} className="max-w-[650px] max-h-[650px]">
-              <img src={item.imgUrl} alt={item.event} className="size-full" />
+              <img src={backendUrl+item.imageUrl} alt={item.event} className="size-full" />
             </div>
           ))
         ) : (

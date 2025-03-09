@@ -7,7 +7,7 @@ import Notiflix from 'notiflix';
 
 
 function Dash_news() {
-       const { newsData, isLoading , deleteNews,putNews } = useContext(GlobalDataContext);
+       const { newsData, isLoading , deleteNews,putNews ,backendUrl } = useContext(GlobalDataContext);
        const [showModal, setShowModal] = useState(false);
        const [showEditModal, setShowEditModal] = useState(false);
        const [selectedNews, setSelectedNews] = useState(null);
@@ -53,7 +53,7 @@ function Dash_news() {
                         }
                       );
                 };
-                
+                 
         
     return (
         <div className="container mx-auto p-6">
@@ -71,7 +71,7 @@ function Dash_news() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {newsData?.map((news) => (
               <div key={news._id} className="bg-white p-4 rounded-lg shadow-md">
-                {news.image && <img src={news.image} alt={news.title} className="w-full h-48 object-cover rounded-md" />}
+                {news.image && <img src={backendUrl+news.image} alt={news.title} className="w-full h-48 object-cover rounded-md" />}
                 <h3 className="text-xl font-semibold mt-2">{news.title}</h3>
                 <p className="text-gray-700 mt-2">{news.content.substring(0, 100)}...</p>
                 <p className="text-sm text-gray-500 mt-2">By {news.author || "Unknown"} on {new Date(news.date).toLocaleDateString()}</p>

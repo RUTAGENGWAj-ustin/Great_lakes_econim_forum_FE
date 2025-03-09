@@ -6,7 +6,7 @@ import Notiflix from "notiflix";
 import EditEvent from "./EditEvent";
 
 function Dash_events() {
-  const { eventsData, isLoading, deleteEvent, putEvent,categoryData,topicsData,speakersData,sponsorsData } = useContext(GlobalDataContext);
+  const { eventsData, isLoading, deleteEvent, putEvent,categoryData,topicsData,speakersData,sponsorsData , backendUrl} = useContext(GlobalDataContext);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -53,6 +53,7 @@ function Dash_events() {
         }
       );
     };
+  
 
   return (
     <div className="relative container mx-auto p-4">

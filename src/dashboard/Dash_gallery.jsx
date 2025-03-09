@@ -6,7 +6,7 @@ import { PenLineIcon, Trash2 } from "lucide-react";
 import Notiflix from 'notiflix';
 
 function Dash_gallery() {
-      const { galleryData, isLoading, deleteGallery } = useContext(GlobalDataContext);
+      const { galleryData, isLoading, deleteGallery,backendUrl } = useContext(GlobalDataContext);
      const [showModal, setShowModal] = useState(false);
      const [showEditModal, setShowEditModal] = useState(false);
      const [selectedGallery, setSelectedGallery] = useState(null);
@@ -55,7 +55,6 @@ const handleDeleteImage = async (imageId) => {
               }
             );
       };
-      
     
       return (
         <div className="container mx-auto p-6">
@@ -73,7 +72,7 @@ const handleDeleteImage = async (imageId) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {galleryData.map((item) => (
               <div key={item._id} className="bg-white p-4 rounded-lg shadow-md">
-                <img src={item.imageUrl} alt={item.caption} className="w-full h-48 object-cover rounded-md" />
+                <img src={backendUrl+item.imageUrl} alt={item.caption} className="w-full h-48 object-cover rounded-md" />
                 <p className="mt-2 text-gray-700 text-center">{item.caption || "No caption provided"}</p>
                 <div className="w-full flex justify-center p-2">
                   <div className=' border-t-1 border-gray-300 min-w-30 p-3 flex justify-between'>

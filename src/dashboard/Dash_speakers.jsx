@@ -9,12 +9,11 @@ import Notiflix from "notiflix";
 
 function Dash_speakers() {
 
-      const { speakersData, isLoading,deleteSpeaker } = useContext(GlobalDataContext);
+      const { speakersData, isLoading,deleteSpeaker,backendUrl } = useContext(GlobalDataContext);
       const [showModal, setShowModal] = useState(false);
       const [showEditModal, setShowEditModal] = useState(false);
       const [selectedSpeaker, setSelectedSpeaker] = useState(null);
 
-      let eventurl="http://localhost:5000";
     
       if (isLoading) {
         return <div>Loading events...</div>;
@@ -57,7 +56,6 @@ function Dash_speakers() {
                     }
                   );
             };
-            
   return (
     <div className="relative container mx-auto p-4">
     <div className="flex justify-between p-2">
@@ -89,7 +87,7 @@ function Dash_speakers() {
               <td className="p-3">{speaker?.name}</td>
               <td className="p-3">{speaker?.bio}</td>
               <td className="p-3">{speaker?.expertise}</td>
-              <td className="p-3"><img src={speaker?.image} className="w-10 h-10"/></td>
+              <td className="p-3"><img src={backendUrl+speaker?.image} className="w-10 h-10"/></td>
               <td className="p-3">
                 <div className="w-full flex justify-between">
                   <button className="text-green-600" onClick={() => handleEditSpeaker(speaker)}><PenLineIcon size={20}/></button> 

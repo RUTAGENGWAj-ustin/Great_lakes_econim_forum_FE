@@ -7,7 +7,7 @@ import EditSponsor from './EditSponsor';
 import Notiflix from 'notiflix';
 
 function Dash_sponsors() {
-     const { sponsorsData, isLoading,deleteSponsor } = useContext(GlobalDataContext);
+     const { sponsorsData, isLoading,deleteSponsor,backendUrl } = useContext(GlobalDataContext);
       const [showModal, setShowModal] = useState(false);
 
       const [showEditModal, setShowEditModal] = useState(false);
@@ -55,7 +55,7 @@ function Dash_sponsors() {
                     }
                   );
             };
-            
+      
     
     return (
         <div className="container mx-auto p-6">
@@ -71,10 +71,10 @@ function Dash_sponsors() {
         Add Sponsor
         </button>
       </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {sponsorsData?.map((sponsor) => (
-              <div key={sponsor._id} className="bg-white p-4 rounded-lg shadow-md text-center">
-                {sponsor.logo && <img src={sponsor.logo} alt={sponsor.name} className="w-full h-32 object-contain mb-2" />}
+              <div key={sponsor._id} className="bg-white p-4 rounded-lg shadow-md grid grid-cols content-between">
+                {sponsor.logo && <img src={backendUrl+sponsor.logo} alt={sponsor.name} className="w-full h-48 object-cover rounded-md" />}
                 <h3 className="text-xl font-semibold">{sponsor.name}</h3>
                 {sponsor.website && (
                   <a href={sponsor.website} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
