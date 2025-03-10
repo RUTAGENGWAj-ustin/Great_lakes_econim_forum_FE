@@ -1,16 +1,14 @@
+import { useState,useContext,useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Navigation, Pagination, Autoplay,EffectCoverflow } from 'swiper/modules';
+import { CalendarDateRangeIcon, LockClosedIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import { GlobalDataContext } from '../context/GlobalDataContext';
+import { Clock, Dot } from 'lucide-react';
 
-const event = [
-  { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', img:'/speakers/meddy.jpg' },
-  { name: 'Engagement', description: 'Speak directly to your customers', href: '#', img:'/speakers/meddy.jpg' },
-  { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', img:'/speakers/meddy.jpg' },
-  { name: 'Integrations', description: 'Connect with third-party tools', href: '#', img:'/speakers/meddy.jpg' },
-  { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', img:'/speakers/meddy.jpg' },
-]
+
 
 const event2 = [
   { description: 'A premier platform for business leaders, policymakers, and innovators to collaborate, strengthen trade, and foster sustainable economic growth in the Great Lakes region.', title: 'Connecting Leaders. Driving Growth. Shaping the Future.', img:'/speakers/kigali.jpg' },
@@ -22,18 +20,62 @@ const event2 = [
  
 ]
 
-const event3 = [
-  { name: 'Dave janny',title: 'Analytics', description: 'Get a better understanding of your traffic At Analyst, we publish both primary research and review articles, ensuring a comprehensive coverage of significant advancements in analytical measurement .. At Analyst, we publish both primary research and review articles, ensuring a comprehensive coverage of significant advancements in analytical measurement ..', href: '#', img:'/speakers/artist1.jpg' },
-  { name: 'Trevor Noah',title: 'Comedian', description: 'Trevor Noah is a South African comedian, writer, producer, political commentator, actor, and television host. He was the host of The Daily Show, an American late-night talk show and satirical news program on Comedy Central, from 2015 to 2022. Noah has won various awards, including two Primetime Emmy Awards.', href: '#', img:'/speakers/artist2.jpg' },
-  { name: 'Diamond platnumz',title: 'Music Artist', description: 'Naseeb Abdul Juma Issack, professionally known as Diamond Platnumz, is a Tanzanian bongo flava recording artist, dancer, philanthropist and businessman. He is the founder and CEO of WCB Wasafi Record Label, Wasafi Bet and Wasafi Media. Diamond has gained a massive following in East and Central Africa. ', href: '#', img:'/speakers/artist3.webp' },
-  { name: 'Dave janny',title: 'Analytics', description: 'Get a better understanding of your traffic At Analyst, we publish both primary research and review articles, ensuring a comprehensive coverage of significant advancements in analytical measurement .. At Analyst, we publish both primary research and review articles, ensuring a comprehensive coverage of significant advancements in analytical measurement ..', href: '#', img:'/speakers/artist1.jpg' },
-  { name: 'Trevor Noah',title: 'Comedian', description: 'Trevor Noah is a South African comedian, writer, producer, political commentator, actor, and television host. He was the host of The Daily Show, an American late-night talk show and satirical news program on Comedy Central, from 2015 to 2022. Noah has won various awards, including two Primetime Emmy Awards.', href: '#', img:'/speakers/artist2.jpg' },
-  { name: 'Diamond platnumz',title: 'Music Artist', description: 'Naseeb Abdul Juma Issack, professionally known as Diamond Platnumz, is a Tanzanian bongo flava recording artist, dancer, philanthropist and businessman. He is the founder and CEO of WCB Wasafi Record Label, Wasafi Bet and Wasafi Media. Diamond has gained a massive following in East and Central Africa. ', href: '#', img:'/speakers/artist3.webp' },
- 
-]
 
 function Home() {
+  const { eventsData, isLoading, backendUrl2,speakersData,backendUrl,newsData } = useContext(GlobalDataContext);
 
+  const upcomingEvents = eventsData?.filter((event) => new Date(event.date) > new Date());
+  const upcomingNews = newsData?.filter((news) => new Date(news.date) > new Date());
+
+    // Function to get random speakers
+    function getRandomSpeakers(speakers, count = 5) {
+      // Fisher-Yates shuffle algorithm
+      const shuffledSpeakers = [...speakersData];
+      for (let i = shuffledSpeakers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledSpeakers[i], shuffledSpeakers[j]] = [shuffledSpeakers[j], shuffledSpeakers[i]];
+      }
+  
+      // Return the first `count` speakers
+      return shuffledSpeakers.slice(0, count);
+    }
+    // Function to calculate the countdown
+    function countdownToDate(targetDate) {
+      const target = new Date(targetDate);
+      const now = new Date();
+      const difference = target - now;
+  
+      if (difference <= 0) {
+        return "00:00:00:00"; // Event has already started or ended
+      }
+  
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000).toString().padStart(2, '0');
+  
+      return `${days}:${hours}:${minutes}:${seconds}`;
+    }
+  
+    // Function to format the date
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+  
+      const options = {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+      };
+  
+      let formattedDate = date.toLocaleString('en-US', options);
+      formattedDate = formattedDate.replace(',', '');
+  
+      return formattedDate;
+    }
   
     return <div className="max-w-full mt-25">
             <Swiper
@@ -118,23 +160,11 @@ function Home() {
         autoplay={{ delay: 4000, disableOnInteraction: true }}
         loop
       >
-        {event.map((index) => (
+        {upcomingEvents?.map((index) => (
           <SwiperSlide key={index}>
      
-                    <div class="max-w-2xl rounded-lg overflow-hidden shadow-lg mb-10 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-90">
-                      <img class="w-full rounded-lg" src={index.img} alt="Sunset in the mountains"/>
-                      <div class="px-6 py-4">
-                        <div class="font-bold text-xl mb-2">{index.name}</div>
-                        <p class="text-gray-700 text-base">
-                          {index.description}
-                        </p>
-                      </div>
-                      <div class="px-6 pt-4 pb-2">
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-                      </div>
-                    </div>
+               <EventCard key={index._id} event={index} backendUrl2={backendUrl2} countdownToDate={countdownToDate} formatDate={formatDate} />
+
           </SwiperSlide>
         ))}
       </Swiper>
@@ -173,25 +203,26 @@ function Home() {
         autoplay={{ delay: 6000, disableOnInteraction: true }}
         loop
       >
-        {event3.map((index) => (
+        {speakersData?.map((index) => (
           <SwiperSlide key={index}>
      
                     <div class="max-w-2xl rounded-lg overflow-hidden shadow-lg mb-10 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-90">
-                      <img class="w-full rounded-lg h-80" src={index.img} alt="Sunset in the mountains"/>
+                      <img class="w-full rounded-lg h-80" src={backendUrl+index.image} alt="Sunset in the mountains"/>
                       <div class="px-6 py-4">
-                        <div class="font-bold text-xl mb-2">{index.name}</div>
-                        <div class="font-bold text-xl mb-2">{index.title}</div>
+                        <div class="font-bold text-xl mb-2">Name :{index.name}</div>
+                        <div class="font-bold text-xl mb-2">Experet in {index.expertise}</div>
                         <div className="max-h-30">
+                        <p className='font-bold text-xl mb-2'>Biography:</p>
                         <p class="text-gray-700 text-base max-h-20 overflow-hidden text-ellipsis">
-                          {index.description}
+                          {index.bio}
                         </p>
                         </div>
                       </div>
-                      <div class="px-6 pt-4 pb-2">
+                      {/* <div class="px-6 pt-4 pb-2">
                         <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
                         <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
                         <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-                      </div>
+                      </div> */}
                     </div>
           </SwiperSlide>
         ))}
@@ -240,25 +271,27 @@ function Home() {
 
     
       >
-        {event3.map((index) => (
+        {newsData?.map((index) => (
           <SwiperSlide key={index}>
      
-                    <div class="bg-white relative max-w-2xl rounded-lg overflow-hidden shadow-lg mb-10 transition delay-150 duration-300 ease-in-out">
-                      <img class="w-full rounded-lg h-80" src={index.img} alt="Sunset in the mountains"/>
+                    <div class="bg-white relative max-w-3xl rounded-lg overflow-hidden shadow-lg mb-10 transition delay-150 duration-300 ease-in-out">
+                      <img class="w-full rounded-lg h-100" src={backendUrl+index.image} alt="Sunset in the mountains"/>
                       <div class=" px-6 py-4">
-                        <div class="font-bold text-xl mb-2">{index.name}</div>
-                        <div class="font-bold text-xl mb-2">{index.title}</div>
+                        <div class="text-xl mb-2"><span className='font-sembold'>Author: </span><span className='font-bold'>{index.title}</span></div>
+                        <div class=" text-xl mb-2"><span className='font-sembold'>Author: </span><span className='font-bold'>{index.author}</span></div>
+                        <div class="text-xl mb-2"><span className='font-sembold'>Date : </span><span className='font-bold'>{formatDate(index.date)}</span></div>
+                        
                         <div className="max-h-30">
                         <p class="text-gray-700 text-base max-h-20 overflow-hidden text-ellipsis">
-                          {index.description}
+                          {index.content}
                         </p>
                         </div>
                       </div>
-                      <div class="px-6 pt-4 pb-2">
+                      {/* <div class="px-6 pt-4 pb-2">
                         <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
                         <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
                         <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-                      </div>
+                      </div> */}
                     </div>
           </SwiperSlide>
         ))}
@@ -284,5 +317,97 @@ function Home() {
     
     </div> ;
   }
+
+  // EventCard Component
+function EventCard({ event, backendUrl2 ,countdownToDate,formatDate }) {
+  const [countdown, setCountdown] = useState(countdownToDate(event?.date));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newCountdown = countdownToDate(event.date);
+      setCountdown(newCountdown);
+
+      // Stop the interval if the countdown reaches "00:00:00:00"
+      if (newCountdown === "00:00:00:00") {
+        clearInterval(interval);
+      }
+    }, 1000); // Update every second
+
+    // Cleanup the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, [event.date]);
+
+  return (
+    <div className="max-w-2xl rounded-lg overflow-hidden mb-10 transition delay-150 duration-300 ease-in-out">
+      <div className="@container relative min-h-[30rem] w-full grow max-lg:mx-auto max-lg:max-w-sm">
+        <div className="absolute inset-x-0 top-0 bottom-2 overflow-hidden rounded shadow-1xl">
+          <img
+            className="size-full object-cover object-top"
+            src={backendUrl2 + event.imageUrl}
+            alt={event._id}
+          />
+        </div>
+      </div>
+
+      <div className="px-0 py-4">
+        <div className="grid items-center justify-between">
+          <div className="font-bold text-xl mb-2">{event.name}</div>
+          <div className="flex gap-10 mt-5 mb-5">
+            <div className="bg-green-600 text-white pt-1 pb-1 pl-3 pr-3 rounded-2xl font-mono h-fit">
+              {event.category.name}
+            </div>
+            <ul className="grid gap-2">
+              <li className="flex items-center">
+                <span>
+                  <CalendarDateRangeIcon className="text-green-600 w-8 h-8 mr-3" />
+                </span>
+                <span className="font-mono">{formatDate(event.date)}</span>
+              </li>
+              <li className="flex items-center">
+                <span>
+                  <Clock className="text-red-600 w-8 h-8 mr-3" />
+                </span>
+                <span className="font-mono text-red-600" >{countdown}</span>
+              </li>
+              <li className="flex items-center">
+                <span>
+                  <MapPinIcon className="text-green-600 w-8 h-8 mr-3" />
+                </span>
+                <span className="font-mono max-w-fit">{event.location}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="flex justify-start">
+          <div className="w-fit">
+            <div className="font-bold text-xl mb-2">Prices</div>
+            <div className="flex">
+              {event.pricing?.map((price) => (
+                <div className="border-r border-gray-200 rounded-tr-2xl">
+                  <div className="bg-red-600 text-white pt-1 pb-1 pl-3 pr-3 ml-1 mb-2 rounded-tr-2xl max-w-fit max-h-fit">
+                    <span>{price.type}: </span>Rwf <span>{price.price}</span>
+                  </div>
+                  {/* <div className="grid">
+                    <ul>
+                      {price.benefits?.map((benefit) => (
+                        <li className="flex">
+                          <span>
+                            <Dot />
+                          </span>
+                          <span>{benefit}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div> */}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <p className="text-gray-700 text-base mt-3">{event.description}</p>
+      </div>
+    </div>
+  );
+}
   
   export default Home;

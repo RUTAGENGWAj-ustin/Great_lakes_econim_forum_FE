@@ -58,6 +58,7 @@ function App() {
           <Route path="dash_gallery" element={<Dash_gallery />} />
           <Route path="dash_category" element={<Dash_category/>}/>
           <Route path="dash_sponsors" element={<Dash_sponsors/>} />
+          <Route path="contact" element={<Contact/>}/>
           <Route path="/dashboard/create_event" element={<CreateEvent/>}/>
         </Route>
         </Route>

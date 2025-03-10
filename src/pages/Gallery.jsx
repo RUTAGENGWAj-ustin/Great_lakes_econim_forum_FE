@@ -2,13 +2,6 @@ import { useState ,useContext } from "react";
 import { GlobalDataContext } from "../context/GlobalDataContext";
 
 
-const images = [
-  { event: "concert", imgUrl: "/speakers/kigali.jpg" },
-  { event: "conference", imgUrl: "/speakers/intare.jpg" },
-  { event: "concert", imgUrl: "/speakers/meddy.jpg" },
-  { event: "party", imgUrl: "/speakers/arena.jpg" },
-];
-
 function Gallery() {
 
   const { galleryData, isLoading, deleteGallery,backendUrl, eventsData } = useContext(GlobalDataContext);
@@ -19,13 +12,14 @@ function Gallery() {
   const handleFilterChange = (event) => {
     const selectedEvent = event.target.value;
     console.log( "selectedEvent",selectedEvent);
+    console.log("galleryData",galleryData);
     
     setFilterEvent(selectedEvent);
 
     if (selectedEvent === "") {
       setFilteredImages(galleryData); // Show all if no filter selected
     } else {
-      setFilteredImages(galleryData.filter((img) => img.event === selectedEvent));
+      setFilteredImages(galleryData.filter((img) => img.event._id === selectedEvent));
     }
   };
 

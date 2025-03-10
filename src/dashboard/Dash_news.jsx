@@ -79,7 +79,8 @@ function Dash_news() {
                 <div className=' border-t-1 border-gray-300 min-w-30 p-3 flex justify-between'>
                   <button className="text-green-600" onClick={() => handleEditNews(news)}><PenLineIcon size={20}/></button>
                    <button className="text-red-600" onClick={() => handleDeleteNews(news._id)}><Trash2 size={20}/></button>
-                   </div></div>
+                   </div>
+                   </div>
 
               </div>
             ))}

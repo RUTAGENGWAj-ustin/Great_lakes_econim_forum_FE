@@ -109,6 +109,7 @@ export function GlobalDataProvider({ children }) {
   ].some(Boolean);
 
   const backendUrl = "http://localhost:5000/"; 
+  const backendUrl2 = "http://localhost:5000"; 
 
   return (
     <GlobalDataContext.Provider
@@ -119,7 +120,7 @@ export function GlobalDataProvider({ children }) {
         postAuth, postEvent, postSpeaker, postTopic, postNews, postSponsor, postPayment, postRsvp, postCategory, postGallery,
         putEvent, putSpeaker, putTopic, putNews, putSponsor, putPayment, putRsvp, putCategory, putGallery,
         deleteEvent, deleteSpeaker, deleteTopic, deleteNews, deleteSponsor, deletePayment, deleteRsvp, deleteCategory, deleteGallery,
-        backendUrl,
+        backendUrl,backendUrl2,
       }}
     >
       {children}

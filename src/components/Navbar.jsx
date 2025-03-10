@@ -48,10 +48,18 @@ const callsToAction = [
   { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
   { name: 'Contact sales', href: '#', icon: PhoneIcon },
 ]
-
+ 
 function Navbar() {
 
+
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    // Function to toggle dropdown
+    const toggleDropdown = () => {
+      setIsOpen(!isOpen);
+    };
   return (
 
     <header className="fixed top-0 right-0 left-0 bg-white z-10">
@@ -80,238 +88,42 @@ function Navbar() {
       <Link to="/"  className="text-sm/6 font-semibold text-gray-900 hover:text-green-600">
           Home
         </Link>
-        <Popover className="relative">
-          <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 hover:text-green-600">
-           <Link to="/events">Events</Link> 
-            <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-400" />
-          </PopoverButton>
-
-          <PopoverPanel
-            transition
-            className="absolute top-full -left-8 z-10 mt-3 w-screen max-w-xs overflow-hidden rounded-3xl bg-white ring-1 shadow-lg ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
-          >
-            <div className="p-4">
-            <div
-                  key="1"
-                  className="group relative flex items-center gap-x-2 rounded-lg p-1 text-sm/6 hover:bg-gray-50"
-                >
-                  
-                  <div className="flex-auto">
-                    <p className="mt-1 text-gray-600">Upcoming & past events</p>
-                  </div>
-                  <div className="flex size-8 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                    <ChevronRightIcon aria-hidden="true" className="size-4 text-gray-600 group-hover:text-green-600" />
-                  </div>
-                </div>
-                <div
-                  key="1"
-                  className="group relative flex items-center gap-x-2 rounded-lg p-1 text-sm/6 hover:bg-gray-50"
-                >
-                  
-                  <div className="flex-auto">
-                    <p className="mt-1 text-gray-600">Registration links</p>
-                  </div>
-                  <div className="flex size-8 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                    <ChevronRightIcon aria-hidden="true" className="size-4 text-gray-600 group-hover:text-green-600" />
-                  </div>
-                </div>
-            </div>
-            {/* <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-              {callsToAction.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="flex items-center justify-center gap-x-2.5 p-3 text-sm/6 font-semibold text-gray-900 hover:bg-gray-100"
-                >
-                  <item.icon aria-hidden="true" className="size-5 flex-none text-gray-400" />
-                  {item.name}
-                </a>
-              ))}
-            </div> */}
-          </PopoverPanel>
-        </Popover>
-        <Popover className="relative">
-          <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 hover:text-green-600">
-           <Link to="/speakers">Speakers & Expert</Link> 
-            <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-400" />
-          </PopoverButton>
-
-          <PopoverPanel
-            transition
-            className="absolute top-full -left-8 z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white ring-1 shadow-lg ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
-          >
-            <div className="p-4">
-              {products.map((item) => (
-                <div
-                  key={item.name}
-                  className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 hover:bg-gray-50"
-                >
-                  <div className="flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                    <item.icon aria-hidden="true" className="size-6 text-gray-600 group-hover:text-green-600" />
-                  </div>
-                  <div className="flex-auto">
-                    <a href={item.href} className="block font-semibold text-gray-900">
-                      {item.name}
-                      <span className="absolute inset-0" />
-                    </a>
-                    <p className="mt-1 text-gray-600">{item.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-      
-          </PopoverPanel>
-        </Popover>
-      
-        <Popover className="relative">
-          <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 hover:text-green-600">
-           <Link to="/about">About Us </Link> 
-            <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-400" />
-          </PopoverButton>
-
-          <PopoverPanel
-            transition
-            className="absolute top-full -left-8 z-10 mt-3 w-screen max-w-xs overflow-hidden rounded-3xl bg-white ring-1 shadow-lg ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
-          >
-            <div className="p-4">
-            <div
-                  key="1"
-                  className="group relative flex items-center gap-x-2 rounded-lg p-1 text-sm/6 hover:bg-gray-50"
-                >
-                  
-                  <div className="flex-auto">
-                    <p className="mt-1 text-gray-600">Mission & vision of the platform</p>
-                  </div>
-                  <div className="flex size-8 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                    <ChevronRightIcon aria-hidden="true" className="size-4 text-gray-600 group-hover:text-green-600" />
-                  </div>
-                </div>
-                <div
-                  key="1"
-                  className="group relative flex items-center gap-x-2 rounded-lg p-1 text-sm/6 hover:bg-gray-50"
-                >
-                  
-                  <div className="flex-auto">
-                    <p className="mt-1 text-gray-600">History of the forum</p>
-                  </div>
-                  <div className="flex size-8 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                    <ChevronRightIcon aria-hidden="true" className="size-4 text-gray-600 group-hover:text-green-600" />
-                  </div>
-                </div>
-                <div
-                  key="1"
-                  className="group relative flex items-center gap-x-2 rounded-lg p-1 text-sm/6 hover:bg-gray-50"
-                >
-                  
-                  <div className="flex-auto">
-                    <p className="mt-1 text-gray-600">Key stakeholders & partners</p>
-                  </div>
-                  <div className="flex size-8 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                    <ChevronRightIcon aria-hidden="true" className="size-4 text-gray-600 group-hover:text-green-600" />
-                  </div>
-                </div>
-            </div>
-         
-          </PopoverPanel>
-        </Popover>
+        <Link to="/events"className="text-sm/6 font-semibold text-gray-900 hover:text-green-600">Events</Link> 
+        <Link to="/speakers" className="text-sm/6 font-semibold text-gray-900 hover:text-green-600">Speakers & Expert</Link> 
+        <Link to="/about" className="text-sm/6 font-semibold text-gray-900 hover:text-green-600">About Us </Link> 
         <Link to="/gallery"  className="text-sm/6 font-semibold text-gray-900 hover:text-green-600">
           Gallary
         </Link>
-        <Popover className="relative">
-          <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
-           <p>Others</p> 
-            <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-400" />
-          </PopoverButton>
-
-          <PopoverPanel
-            transition
-            className="absolute top-full -left-8 z-10 mt-3 w-screen max-w-xs overflow-hidden rounded-3xl bg-white ring-1 shadow-lg ring-gray-900/5 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
+        <div className="relative">
+          {/* Dropdown Button */}
+          <button
+            onClick={toggleDropdown}
+            className="text-sm/6 font-semibold text-gray-900 hover:text-green-600"
           >
-            <div className="p-4">
-              <Link to="/sponsors" className="block font-semibold text-gray-900">
-            Sponsors & Partners
-                      <span className="absolute inset-0" />
-                    </Link>
-                    <Link to="/sponsors">
-                <div
-                  key="1"
-                  className="group relative flex items-center gap-x-2 rounded-lg p-1 text-sm/6 hover:bg-gray-50"
-                >
-                   
-                  <div className="flex-auto">
-                    <p className="mt-1 text-gray-600">List of sponsors & supporting organizations</p>
-                  </div>
-                 
-                  <div className="flex size-8 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                    <ChevronRightIcon aria-hidden="true" className="size-4 text-gray-600 group-hover:text-green-600" />
-                  </div>
-                </div>
-                </Link>
-                <Link to="/sponsors" className="w-full">
-                <div
-                  key="1"
-                  className="group relative flex items-center gap-x-2 rounded-lg p-1 text-sm/6 hover:bg-gray-50"
-                >
-                 
-                  <div className="flex-auto">
-                    <p className="mt-1 text-gray-600">How to become a sponsor/partner</p>
-                  </div>
-                  
-                  <div className="flex size-8 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                    <ChevronRightIcon aria-hidden="true" className="size-4 text-gray-600 group-hover:text-green-600" />
-                  </div>
-                </div>
-                </Link>
+            Others
+          </button>
+
+          {/* Dropdown Content */}
+          {isOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
+             <Link to="/news"  onClick={toggleDropdown}
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
+                News
+              </Link>
+             <Link to="/contact"  onClick={toggleDropdown}
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
+                Contact Us
+              </Link>
             </div>
-            <div className="space-y-2 p-4">
-            <a href="" className="block font-semibold text-gray-900">
-            Get Involved
-                      <span className="absolute inset-0" />
-                    </a>
-                <div
-                  key="1"
-                  className="group relative flex items-center gap-x-2 rounded-lg p-1 text-sm/6 hover:bg-gray-50"
-                >
-                  
-                  <div className="flex-auto">
-                    <p className="mt-1 text-gray-600">Membership & subscription options</p>
-                  </div>
-                  <div className="flex size-8 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                    <ChevronRightIcon aria-hidden="true" className="size-4 text-gray-600 group-hover:text-green-600" />
-                  </div>
-                </div>
-                <div
-                  key="2"
-                  className="group relative flex items-center gap-x-2 rounded-lg p-1 text-sm/6 hover:bg-gray-50"
-                >
-                  
-                  <div className="flex-auto">
-                    <p className="mt-1 text-gray-600">Volunteer opportunities</p>
-                  </div>
-                  <div className="flex size-8 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                    <ChevronRightIcon aria-hidden="true" className="size-4 text-gray-600 group-hover:text-green-600" />
-                  </div>
-                </div>
-                <div
-                  key="3"
-                  className="group relative flex items-center gap-x-2 rounded-lg p-1 text-sm/6 hover:bg-gray-50"
-                >
-                  
-                  <div className="flex-auto">
-                    <p className="mt-1 text-gray-600">Contact form for inquiries</p>
-                  </div>
-                  <div className="flex size-8 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                    <ChevronRightIcon aria-hidden="true" className="size-4 text-gray-600 group-hover:text-green-600" />
-                  </div>
-                </div>
-            </div>
-        
-          </PopoverPanel>
-        </Popover>
+          )}
+        </div>
+      
       </PopoverGroup>
       <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href="#" className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-md">
-          Register for Event <span aria-hidden="true">&rarr;</span>
+        <a href="/Login" className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-md">
+          Login <span aria-hidden="true">&rarr;</span>
         </a>
       </div>
     </nav>
@@ -391,5 +203,8 @@ function Navbar() {
   </header>
   );
 }
+
+
+
 
 export default Navbar;
