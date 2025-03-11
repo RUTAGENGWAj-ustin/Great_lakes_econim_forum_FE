@@ -3,6 +3,7 @@ import Pagination from '../Pagination';
 import { CalendarDateRangeIcon, LockClosedIcon, MapPinIcon } from '@heroicons/react/24/outline';
 import { GlobalDataContext } from '../context/GlobalDataContext';
 import { Clock, Dot } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 function Events() {
   const { eventsData, isLoading, backendUrl2 } = useContext(GlobalDataContext);
@@ -54,7 +55,7 @@ function Events() {
 
   return (
     <div className="mt-30 grid w-full flex justify-center items-center">
-      <div className="bg-white grid w-full flex justify-center items-center">
+      <div className="bg-gray-50 grid w-full flex justify-center items-center">
         <div className="w-fit">
           <h1 className="text-4xl text-center text-green-900 font-semibold">
             <span className="text-green-600 text-4xl">Events</span>
@@ -71,6 +72,7 @@ function Events() {
             <EventCard key={index._id} event={index} backendUrl2={backendUrl2} countdownToDate={countdownToDate} formatDate={formatDate} />
           ))}
         </div>
+        <div className='mt-10'>
 
         <Pagination
           totalPage={eventsData?.length}
@@ -78,6 +80,7 @@ function Events() {
           setCurrentPage={setCurrentPage}
           CurrentPage={currentPage}
         />
+        </div>
       </div>
     </div>
   );
@@ -103,7 +106,8 @@ function EventCard({ event, backendUrl2 ,countdownToDate,formatDate }) {
   }, [event.date]);
 
   return (
-    <div className="max-w-2xl rounded-lg overflow-hidden mb-10 transition delay-150 duration-300 ease-in-out">
+    <Link to={event._id}>
+    <div className="max-w-2xl h-full rounded-lg overflow-hidden mb-10 transition delay-150 duration-300 ease-in-out  border-1 border-solid border-gray-300  hover:border-green-300">
       <div className="@container relative min-h-[30rem] w-full grow max-lg:mx-auto max-lg:max-w-sm">
         <div className="absolute inset-x-0 top-0 bottom-2 overflow-hidden rounded shadow-1xl">
           <img
@@ -114,7 +118,7 @@ function EventCard({ event, backendUrl2 ,countdownToDate,formatDate }) {
         </div>
       </div>
 
-      <div className="px-0 py-4">
+      <div className="px-0 py-4 pl-2">
         <div className="grid items-center justify-between">
           <div className="font-bold text-xl mb-2">{event.name}</div>
           <div className="flex gap-10 mt-5 mb-5">
@@ -172,6 +176,7 @@ function EventCard({ event, backendUrl2 ,countdownToDate,formatDate }) {
         <p className="text-gray-700 text-base mt-3">{event.description}</p>
       </div>
     </div>
+    </Link>
   );
 }
 

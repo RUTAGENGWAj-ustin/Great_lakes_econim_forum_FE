@@ -18,6 +18,15 @@ const fetchData = async (endpoint) => {
   return response.data;
 };
 
+  // Function to fetch a single event by ID
+  const fetchSingleEvent = async (eventId) => {
+    const response = await fetch(`${API_BASE_URL}/events/${eventId}`); // Replace with your API endpoint
+    if (!response.ok) {
+      throw new Error("Failed to fetch event");
+    }
+    return response.json();
+  };
+
 // Function to send a POST request
 const createPost = (endpoint) => async (data) => {
   const response = await axios.post(`${API_BASE_URL}/${endpoint}`, data, {
@@ -66,6 +75,7 @@ export function GlobalDataProvider({ children }) {
   const { data: rsvpData, isLoading: rsvpLoading, error: rsvpError } = createQuery("rsvpData", "rsvp");
   const { data: categoryData, isLoading: categoryLoading, error: categoryError } = createQuery("categoryData", "category");
   const { data: galleryData, isLoading: galleryLoading, error: galleryError } = createQuery("galleryData", "gallery");
+  const { data: advertData, isLoading: advertLoading, error: advertError } = createQuery("advertData", "adverts");
 
   const postAuth = createPost("auth");
   const postEvent = createPost("events");
@@ -77,6 +87,7 @@ export function GlobalDataProvider({ children }) {
   const postRsvp = createPost("rsvp");
   const postCategory = createPost("category");
   const postGallery = createPost("gallery");
+  const postAdvert = createPost("adverts");
 
   const putEvent = createPut("events");
   const putSpeaker = createPut("speakers");
@@ -87,6 +98,7 @@ export function GlobalDataProvider({ children }) {
   const putRsvp = createPut("rsvp");
   const putCategory = createPut("category");
   const putGallery = createPut("gallery");
+  const putAdvert = createPut("adverts")
 
   const deleteEvent = createDelete("events");
   const deleteSpeaker = createDelete("speakers");
@@ -97,16 +109,27 @@ export function GlobalDataProvider({ children }) {
   const deleteRsvp = createDelete("rsvp");
   const deleteCategory = createDelete("category");
   const deleteGallery = createDelete("gallery");
+  const deleteAdvert = createDelete("adverts")
 
   const isLoading = [
-    authLoading, eventsLoading, speakersLoading, topicsLoading, newsLoading,
+    authLoading, eventsLoading, speakersLoading, topicsLoading, newsLoading,advertLoading,
     sponsorsLoading, paymentsLoading, rsvpLoading, categoryLoading, galleryLoading
   ].some(Boolean);
 
   const hasError = [
-    authError, eventsError, speakersError, topicsError, newsError,
+    authError, eventsError, speakersError, topicsError, newsError,advertError,
     sponsorsError, paymentsError, rsvpError, categoryError, galleryError
   ].some(Boolean);
+
+  const getSingleEvent = (eventId) =>
+    useQuery({
+      queryKey: ["event", eventId],
+      queryFn: () => fetchSingleEvent(eventId),
+      onError: (error) => {
+        const errorMessage = error?.response?.data?.error || `Failed to fetch event ${eventId}.`;
+        Notiflix.Notify.failure(errorMessage);
+      },
+    });
 
   const backendUrl = "http://localhost:5000/"; 
   const backendUrl2 = "http://localhost:5000"; 
@@ -114,13 +137,13 @@ export function GlobalDataProvider({ children }) {
   return (
     <GlobalDataContext.Provider
       value={{
-        authData, eventsData, speakersData, topicsData, newsData,
+        authData, eventsData, speakersData, topicsData, newsData,advertData,
         sponsorsData, paymentsData, rsvpData, categoryData, galleryData,
         isLoading, hasError,
-        postAuth, postEvent, postSpeaker, postTopic, postNews, postSponsor, postPayment, postRsvp, postCategory, postGallery,
-        putEvent, putSpeaker, putTopic, putNews, putSponsor, putPayment, putRsvp, putCategory, putGallery,
-        deleteEvent, deleteSpeaker, deleteTopic, deleteNews, deleteSponsor, deletePayment, deleteRsvp, deleteCategory, deleteGallery,
-        backendUrl,backendUrl2,
+        postAuth, postEvent, postSpeaker,postAdvert, postTopic, postNews, postSponsor, postPayment, postRsvp, postCategory, postGallery,
+        putEvent, putSpeaker, putTopic,putAdvert, putNews, putSponsor, putPayment, putRsvp, putCategory, putGallery,
+        deleteEvent, deleteSpeaker,deleteAdvert, deleteTopic, deleteNews, deleteSponsor, deletePayment, deleteRsvp, deleteCategory, deleteGallery,
+        backendUrl,backendUrl2,getSingleEvent,
       }}
     >
       {children}

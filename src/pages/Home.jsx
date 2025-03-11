@@ -96,7 +96,7 @@ function Home() {
           <SwiperSlide key={index}>
      
                   <div 
-                   className="h-screen max-w-full bg-black/40 bg-blend-multiply bg-center bg-cover bg-no-repeat mb-10"
+                   className="h-screen max-w-full bg-black/40 bg-blend-multiply bg-center bg-cover bg-no-repeat mb-10 grid justfy-center items-center"
                    style={{ backgroundImage: `url(${index.img})` }}
                    >
                     <div className="grid justfy-center items-center gap-4">
@@ -170,7 +170,7 @@ function Home() {
       </Swiper>
       <div className='mt-10'>
       <div className=" hidden lg:flex lg:flex-1 lg:justify-center">
-        <a href="#" className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-md">
+        <a href="/events" className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-md">
           All Events <span aria-hidden="true">&rarr;</span>
         </a>
       </div>
@@ -218,18 +218,14 @@ function Home() {
                         </p>
                         </div>
                       </div>
-                      {/* <div class="px-6 pt-4 pb-2">
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-                      </div> */}
+                    
                     </div>
           </SwiperSlide>
         ))}
       </Swiper>
       <div className='mt-10'>
       <div className=" hidden lg:flex lg:flex-1 lg:justify-center">
-        <a href="#" className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-md">
+        <a href="/speakers" className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-md">
           All Speakers <span aria-hidden="true">&rarr;</span>
         </a>
       </div>
@@ -287,11 +283,7 @@ function Home() {
                         </p>
                         </div>
                       </div>
-                      {/* <div class="px-6 pt-4 pb-2">
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-                      </div> */}
+                     
                     </div>
           </SwiperSlide>
         ))}
@@ -306,7 +298,7 @@ function Home() {
       </Swiper>
       <div className='mt-10'>
       <div className=" hidden lg:flex lg:flex-1 lg:justify-center">
-        <a href="#" className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-md">
+        <a href="/news" className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-md">
           News & Blogs <span aria-hidden="true">&rarr;</span>
         </a>
       </div>

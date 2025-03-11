@@ -24,6 +24,8 @@ import Dash_news from "./dashboard/Dash_news";
 import Dash_sponsors from "./dashboard/Dash_sponsors";
 import Dash_gallery from "./dashboard/Dash_gallery";
 import Dash_category from "./dashboard/Dash_category";
+import SingleEvent from "./pages/SingleEvent";
+import ListAdverts from "./dashboard/ListAdverts";
 
 function App() {
   return (
@@ -38,6 +40,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/events" element={<Events />} />
+                <Route path="/events/:eventId" element={<SingleEvent />} />
                 <Route path="/speakers" element={<Speakers />} />
                 <Route path="/topics" element={<Topics />} />
                 <Route path="/news" element={<News />} />
@@ -58,6 +61,7 @@ function App() {
           <Route path="dash_gallery" element={<Dash_gallery />} />
           <Route path="dash_category" element={<Dash_category/>}/>
           <Route path="dash_sponsors" element={<Dash_sponsors/>} />
+          <Route path="dash_advert" element={<ListAdverts/>}/>
           <Route path="contact" element={<Contact/>}/>
           <Route path="/dashboard/create_event" element={<CreateEvent/>}/>
         </Route>

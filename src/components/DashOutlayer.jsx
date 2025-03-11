@@ -11,6 +11,7 @@ import {
   Speech,
   SquareStack,
   TentTree,
+  Video,
 } from 'lucide-react';
 
 function DashOutlayer() {
@@ -112,6 +113,18 @@ function DashOutlayer() {
                 <SidebarItem
                   icon={<Image size={20} />}
                   text="Gallery"
+                  active={isActive}
+                />
+              )}
+            </NavLink>
+            <NavLink
+              to="dashboard/dash_advert"
+              className={({ isActive }) => (isActive ? 'active' : '')}
+            >
+              {({ isActive }) => (
+                <SidebarItem
+                  icon={<Video size={20} />}
+                  text="Advert"
                   active={isActive}
                 />
               )}

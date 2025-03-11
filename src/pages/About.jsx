@@ -1,7 +1,7 @@
 function About() {
     return <div>
        <div className="mt-30 ml-10 mr-10">
-       <div className="bg-white-50 py-3 sm:py-4">
+       <div className="bg-gray-50 py-3 sm:py-4">
     <div className="mx-auto max-w-2xl px-10 lg:max-w-7xl lg:px-8">
       <p className="text-green-600 mx-auto mt-3 mb-3 max-w-lg text-center text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
       About GreatLakesForum

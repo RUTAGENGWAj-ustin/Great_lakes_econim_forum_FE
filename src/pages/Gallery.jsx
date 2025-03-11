@@ -24,7 +24,7 @@ function Gallery() {
   };
 
   return (
-    <div className="w-full flex flex-col items-center p-5 mt-25">
+    <div className="w-full bg-gray-50 flex flex-col items-center p-5 mt-25">
       {/* Dropdown for filtering */}
       <div className="mb-4">
         <select
