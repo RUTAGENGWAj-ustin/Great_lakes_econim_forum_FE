@@ -26,7 +26,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-screen bg-gray-50">
       <form onSubmit={handleLogin} className="p-6 shadow-lg rounded-md bg-white">
         <h2 className="text-xl font-bold mb-4">Admin Login</h2>
         <input

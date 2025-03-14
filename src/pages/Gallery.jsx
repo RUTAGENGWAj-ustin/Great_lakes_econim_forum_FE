@@ -24,11 +24,11 @@ function Gallery() {
   };
 
   return (
-    <div className="w-full bg-gray-50 flex flex-col items-center p-5 mt-25">
+    <div className="w-full bg-gray-50 flex flex-col items-center p-5 mt-25 pt-15">
       {/* Dropdown for filtering */}
       <div className="mb-4">
         <select
-          className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 rounded"
+          className="bg-white hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 rounded"
           value={filterEvent}
           onChange={handleFilterChange}
         >

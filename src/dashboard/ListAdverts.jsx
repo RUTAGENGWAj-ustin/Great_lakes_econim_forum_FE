@@ -26,35 +26,48 @@ const ListAdverts = () => {
        };
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Adverts</h1>
-      <button
-        className="mb-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-        onClick={() => setShowModal(true)}
-      >
-        Add New Advert
-      </button>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="container mx-auto p-6">
+          <div className="flex justify-between p-2">
+          <h2 className="text-3xl font-bold text-center mb-6">Adverts</h2>
+        
+        {/* Button to open modal */}
+        <button 
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => setShowModal(true)}
+        >
+         Add New Advert
+        </button>
+      </div>
+      <div className="grid grid-cols-1 gap-4">
         {advertData?.map((advert) => (
-          <div key={advert._id} className="bg-white p-4 rounded-lg shadow-md">
-            <img
-              src={`http://localhost:5000/${advert.image}`} // Serve images from the backend
-              alt={advert.title}
-              className="w-full h-48 object-cover rounded-lg"
-            />
-            <h2 className="text-xl font-semibold mt-2">{advert.title}</h2>
-            <p className="text-gray-600 mt-2">{advert.description}</p>
-            <a
+          <div key={advert._id} className="h-90/100 max-w-full bg-black/40 bg-blend-multiply bg-center bg-cover bg-no-repeat mb-10 grid justfy-center items-center"
+          style={{ backgroundImage: `url(${`http://localhost:5000${advert.image}`})` }}>
+                  <div className="grid justfy-center items-center gap-4">
+                      <div className="p-7"> 
+                      <div className="w-inherted mt-15 flex justify-center items-center">
+                    <h1 className="text-white text-center font-bold text-5xl max-w-lg ">{advert.title}</h1>
+                  </div>
+                  <div className="w-inherted  mt-10 flex justify-center items-center">
+                    <p className="mt-3 mr-10 text-center text-2xl max-w-3xl text-white">
+                   {advert.description}
+                    </p>
+                    </div>
+                    <div className="w-inherted mt-10 flex justify-center items-center">
+                    <a
               href={advert.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
+              className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded"
             >
-              Visit Link
+              Continue
             </a>
+                  </div>
+                    </div>
+                    </div>
+          
             <div className="mt-4 flex space-x-2">
             <div className="w-full flex justify-center p-2">
-                  <div className=' border-t-1 border-gray-300 min-w-30 p-3 flex justify-between'>
+                  <div className=' border-1 border-green-300 bg-white min-w-30 p-3 flex justify-between rounded'>
                     <button className="text-green-600" onClick={() => handleEditAdvert(advert)}><PenLineIcon size={20}/></button>
                      <button className="text-red-600" onClick={() => deleteAdvert(advert._id)}><Trash2 size={20}/></button>
                      </div>
@@ -66,7 +79,7 @@ const ListAdverts = () => {
       {showModal && ( <PostAdvert setShowModal={setShowModal} closeModal={() => setShowModal(false)} />)}
           {showEditModal && (
         <PutAdvert
-          news={selectedAdvert}
+          advert={selectedAdvert}
           setShowModal={setShowEditModal}
           refreshNews={refreshGallery}
         />)}

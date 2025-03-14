@@ -10,14 +10,18 @@ const PostAdvert = ({setShowModal}) => {
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+     console.log(title,description,link,image);
+     
     const formData = new FormData();
     formData.append("title", title);
     formData.append("description", description);
     formData.append("link", link);
     formData.append("image", image);
+
+    
 
     try {
       await postAdvert(formData);

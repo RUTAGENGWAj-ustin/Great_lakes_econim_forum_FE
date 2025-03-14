@@ -57,8 +57,8 @@ function Events() {
     <div className="mt-30 grid w-full flex justify-center items-center">
       <div className="bg-gray-50 grid w-full flex justify-center items-center">
         <div className="w-fit">
-          <h1 className="text-4xl text-center text-green-900 font-semibold">
-            <span className="text-green-600 text-4xl">Events</span>
+          <h1 className="mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight text-balance text-green-600 sm:text-5xl">
+            <span className="">Events</span>
           </h1>
           <p className="mt-10 max-w-100 text-center">
             Join us for thrilling events! Live music, workshops, art exhibits, and more! Mark your calendars and don't miss out!
