@@ -24,6 +24,10 @@ function CreateGallery({ setShowModal }) {
     setImages([...files]); // Set the selected image files
   };
 
+  const refreshPage = () => {
+    window.location.reload();
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -58,6 +62,7 @@ function CreateGallery({ setShowModal }) {
 
       // Close the modal
       setShowModal(false);
+      refreshPage();
     } catch (error) {
       console.error("Error uploading gallery images:", error);
 

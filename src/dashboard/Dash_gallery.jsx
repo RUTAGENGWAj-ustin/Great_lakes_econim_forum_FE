@@ -13,8 +13,7 @@ function Dash_gallery() {
    
      // Function to refresh the gallery list
      const refreshGallery = () => {
-       console.log("Refreshing gallery...");
-       // Fetch or update gallery logic here
+        window.location.reload();
      };
    
      // Function to handle editing a gallery item

@@ -17,7 +17,7 @@ function Dash_events() {
   };
 
   const refreshEvents = () => {
-    // Implement logic to refresh the events list (e.g., refetch data from the backend)
+      window.location.reload();
   };
 
   if (isLoading) {

@@ -24,7 +24,10 @@ function CreateSponsor({ setShowModal }) {
     const file = event.target.files[0];
     setLogo(file); // Set the selected logo file
   };
-
+  
+  const refreshPage = () => {
+    window.location.reload();
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -51,11 +54,9 @@ function CreateSponsor({ setShowModal }) {
       // Use the postSponsor function from context
       const response = await postSponsor(formData);
 
-      console.log("Sponsor created:", response);
-
       // Show success notification
       Notiflix.Notify.success("Sponsor created successfully!");
-
+      refreshPage();
       // Close the modal
       setShowModal(false);
     } catch (error) {

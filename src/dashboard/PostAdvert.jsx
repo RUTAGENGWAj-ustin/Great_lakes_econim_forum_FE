@@ -9,6 +9,9 @@ const PostAdvert = ({setShowModal}) => {
   const [link, setLink] = useState("");
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
+  const refreshPage = () => {
+    window.location.reload();
+  };
 
 
   const handleSubmit = async (e) => {
@@ -25,7 +28,7 @@ const PostAdvert = ({setShowModal}) => {
 
     try {
       await postAdvert(formData);
-      navigate("/dashboard/dash_advert"); // Redirect to the list of adverts
+      refreshPage();
     } catch (error) {
       console.error("Failed to create advert:", error);
     }

@@ -16,7 +16,7 @@ function Dash_news() {
             return <div>Loading events...</div>;
           }
           const refreshNews = () => {
-            console.log("Refreshing news...");
+              window.location.reload();
             // Fetch or update news logic here
           };
 

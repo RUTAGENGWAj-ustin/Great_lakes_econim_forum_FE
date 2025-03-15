@@ -36,7 +36,9 @@ function EditSpeaker({ speaker, setShowModal, refreshSpeakers }) {
     const file = event.target.files[0];
     setSpeakerData((prevData) => ({ ...prevData, image: file }));
   };
-
+  const refreshPage = () => {
+    window.location.reload();
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -67,7 +69,7 @@ function EditSpeaker({ speaker, setShowModal, refreshSpeakers }) {
 
       // Show success notification
       Notiflix.Notify.success("Speaker updated successfully!");
-
+      refreshPage();
       // Close the modal
       setShowModal(false);
 

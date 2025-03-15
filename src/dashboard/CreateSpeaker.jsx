@@ -22,7 +22,9 @@ function CreateSpeaker({ setShowModal }) {
     setSpeakerData((prevData) => ({ ...prevData, image: file }));
   };
 
-
+  const refreshPage = () => {
+    window.location.reload();
+  };
 
 const handleSubmit = async (event) => {
     event.preventDefault();
@@ -41,7 +43,7 @@ const handleSubmit = async (event) => {
 
       // Show success notification
       Notiflix.Notify.success("Speaker created successfully!");
-
+      refreshPage();
       setShowModal(false); // Close modal after successful submission
     } catch (error) {
       console.error("Error submitting speaker:", error);

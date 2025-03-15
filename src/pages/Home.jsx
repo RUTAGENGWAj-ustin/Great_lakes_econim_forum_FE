@@ -22,7 +22,7 @@ const event2 = [
 
 
 function Home() {
-  const { eventsData, isLoading, backendUrl2,speakersData,backendUrl,newsData } = useContext(GlobalDataContext);
+  const { eventsData, isLoading, backendUrl2,speakersData,backendUrl,newsData,advertData } = useContext(GlobalDataContext);
 
   const upcomingEvents = eventsData?.filter((event) => new Date(event.date) > new Date());
   const upcomingNews = newsData?.filter((news) => new Date(news.date) > new Date());
@@ -92,27 +92,32 @@ function Home() {
         autoplay={{ delay: 6000, disableOnInteraction: true }}
         loop
       >
-        {event2.map((index) => (
-          <SwiperSlide key={index}>
+        {advertData?.map((advert) => (
+          <SwiperSlide key={advert._id}>
      
                   <div 
                    className="h-screen max-w-full bg-black/40 bg-blend-multiply bg-center bg-cover bg-no-repeat mb-10 grid justfy-center items-center"
-                   style={{ backgroundImage: `url(${index.img})` }}
+                   style={{ backgroundImage: `url(${`${backendUrl2}${advert.image}`})` }}
                    >
                     <div className="grid justfy-center items-center gap-4">
                       <div className="p-7"> 
                       <div className="w-inherted mt-15 flex justify-center items-center">
-                    <h1 className="text-white text-center font-bold text-5xl max-w-lg ">{index.title}</h1>
+                    <h1 className="text-white text-center font-bold text-5xl max-w-lg ">{advert.title}</h1>
                   </div>
                   <div className="w-inherted  mt-10 flex justify-center items-center">
                     <p className="mt-3 mr-10 text-center text-2xl max-w-3xl text-white">
-                   {index.description}
+                    {advert.description}
                     </p>
                     </div>
                     <div className="w-inherted mt-10 flex justify-center items-center">
-                    <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
-                    Subscribe on event 
-                  </button>
+                              <a
+                        href={advert.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded"
+                      >
+                         Continue
+                         </a>
                   </div>
                     </div>
                     </div>

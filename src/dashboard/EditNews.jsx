@@ -34,6 +34,7 @@ function EditNews({ news, setShowModal, refreshNews,putNews }) {
     const file = event.target.files[0];
     setImage(file); // Set the selected image file
   };
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();

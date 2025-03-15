@@ -18,7 +18,7 @@ function Dash_sponsors() {
       }
 
       const refreshSponsors = () => {
-        console.log("Refreshing sponsors...");
+          window.location.reload();
         // Fetch or update sponsors logic here
       };
 

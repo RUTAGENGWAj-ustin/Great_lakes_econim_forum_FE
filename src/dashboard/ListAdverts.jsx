@@ -7,11 +7,12 @@ import PutAdvert from "./PutAdvert";
 import { DeleteIcon, PenLineIcon, Trash2 } from "lucide-react";
 
 const ListAdverts = () => {
-  const { advertData, deleteAdvert } = useContext(GlobalDataContext);
+  const { advertData, deleteAdvert,backendUrl2 } = useContext(GlobalDataContext);
 
       const [showModal, setShowModal] = useState(false);
        const [showEditModal, setShowEditModal] = useState(false);
        const [selectedAdvert, setSelectedAdvert] = useState(null);
+     console.log("aaaaaaaaaaaaaaaaa:",advertData);
      
        // Function to refresh the gallery list
        const refreshGallery = () => {
@@ -41,7 +42,7 @@ const ListAdverts = () => {
       <div className="grid grid-cols-1 gap-4">
         {advertData?.map((advert) => (
           <div key={advert._id} className="h-90/100 max-w-full bg-black/40 bg-blend-multiply bg-center bg-cover bg-no-repeat mb-10 grid justfy-center items-center"
-          style={{ backgroundImage: `url(${`http://localhost:5000${advert.image}`})` }}>
+          style={{ backgroundImage: `url(${`${backendUrl2}${advert.image}`})` }}>
                   <div className="grid justfy-center items-center gap-4">
                       <div className="p-7"> 
                       <div className="w-inherted mt-15 flex justify-center items-center">

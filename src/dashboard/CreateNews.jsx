@@ -25,6 +25,9 @@ function CreateNews({ setShowModal }) {
     setImage(file); // Set the selected image file
   };
 
+  const refreshPage = () => {
+    window.location.reload();
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -58,6 +61,7 @@ function CreateNews({ setShowModal }) {
 
       // Close the modal
       setShowModal(false);
+      refreshPage();
     } catch (error) {
       console.error("Error creating news:", error);
 

@@ -17,6 +17,9 @@ function CreateCategory({ setShowModal }) {
   const handleChange = (e) => {
     setCategoryData({ ...categoryData, [e.target.name]: e.target.value });
   };
+  const refreshPage = () => {
+    window.location.reload();
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -50,6 +53,7 @@ function CreateCategory({ setShowModal }) {
 
       // Close the modal
       setShowModal(false);
+      refreshPage();
     } catch (error) {
       console.error("Error creating category:", error);
 

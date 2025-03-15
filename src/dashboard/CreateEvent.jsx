@@ -62,7 +62,9 @@ const CreateEvent = ({ setShowModal }) => {
     const updatedPricing = formData.pricing.filter((_, i) => i !== index);
     setFormData({ ...formData, pricing: updatedPricing });
   };
-
+  const refreshPage = () => {
+    window.location.reload();
+  };
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,14 +99,14 @@ const CreateEvent = ({ setShowModal }) => {
   
       // Use the `postEvent` function from context
       const response = await postEvent(formDataToSend);
-  
-      console.log("Event created:", response);
+
   
       // Show success notification
       Notiflix.Notify.success("Event created successfully!");
   
       // Optionally, close the modal or reset the form
       setShowModal(false);
+      refreshPage();
     } catch (error) {
       console.error("Error creating event:", error);
   

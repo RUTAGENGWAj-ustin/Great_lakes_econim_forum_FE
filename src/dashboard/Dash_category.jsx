@@ -22,7 +22,7 @@ function Dash_category() {
     };
 
      const refreshCategories = () => {
-      // Implement logic to refresh the events list (e.g., refetch data from the backend)
+        window.location.reload();
     };
 
      const handleDeleteCategory = async (CategoryId) => {
