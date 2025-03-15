@@ -37,7 +37,7 @@ const News = () => {
               {/* Content on the right */}
               <div className="">
                 <h2 className="text-xl font-semibold"><span>Title: </span> {" "}{news.title}</h2>
-                <p className="text-gray-600 mt-2 line-clamp-3">{news.content}</p>
+                <p className="text-gray-600 mt-2 line-clamp-15">{news.content}</p>
                 <div className="text-sm text-gray-500 mt-2">
                   <span>By {news.author}</span> |{" "}
                   <span>{new Date(news.date).toLocaleDateString()}</span>

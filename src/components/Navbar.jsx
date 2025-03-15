@@ -31,19 +31,12 @@ import {
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
 
 const products = [
-  { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-  { name: 'Engagement', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-  { name: 'Security', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-  { name: 'Integrations', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-  { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
+  { name: 'Analytics', href: '#' },
+  { name: 'Engagement', href: '#'},
+  { name: 'Security', href: '#' }
+ 
 ]
-const others = [
-  { name: 'News & Updates', link1: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-  { name: 'Sponsors & Partners', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-  { name: 'Get Involved', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-  { name: 'Gallery', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-  
-]
+
 const callsToAction = [
   { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
   { name: 'Contact sales', href: '#', icon: PhoneIcon },
@@ -111,6 +104,11 @@ function Navbar() {
               >
                 News
               </Link>
+              <Link to="/sponsors"  onClick={toggleDropdown}
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
+                Sponsors
+              </Link>
              <Link to="/contact"  onClick={toggleDropdown}
                 className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
               >
@@ -132,10 +130,10 @@ function Navbar() {
       <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
         <div className="flex items-center justify-between">
           <a href="#" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
+            <span className="sr-only">Great Lakes Economic Forum</span>
             <img
               alt=""
-              src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
+              src="../public/logo/logo.png"
               className="h-8 w-auto"
             />
           </a>
@@ -151,50 +149,18 @@ function Navbar() {
         <div className="mt-6 flow-root">
           <div className="-my-6 divide-y divide-gray-500/10">
             <div className="space-y-2 py-6">
-              <Disclosure as="div" className="-mx-3">
-                <DisclosureButton className="group flex w-full items-center justify-between rounded-lg py-2 pr-3.5 pl-3 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">
-                  Product
-                  <ChevronDownIcon aria-hidden="true" className="size-5 flex-none group-data-open:rotate-180" />
-                </DisclosureButton>
-                <DisclosurePanel className="mt-2 space-y-2">
-                  {[...products, ...callsToAction].map((item) => (
-                    <DisclosureButton
-                      key={item.name}
-                      as="a"
-                      href={item.href}
-                      className="block rounded-lg py-2 pr-3 pl-6 text-sm/7 font-semibold text-gray-900 hover:bg-gray-50"
-                    >
-                      {item.name}
-                    </DisclosureButton>
-                  ))}
-                </DisclosurePanel>
-              </Disclosure>
-              <a
-                href="#"
-                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-              >
-                Features
-              </a>
-              <a
-                href="#"
-                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-              >
-                Marketplace
-              </a>
-              <a
-                href="#"
-                className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-              >
-                Company
-              </a>
+    
+        <Link to="/"  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Home </Link>
+        <Link to="/events"className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Events</Link> 
+        <Link to="/speakers" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Speakers & Expert</Link> 
+        <Link to="/about" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">About Us </Link> 
+        <Link to="/gallery"  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Gallary </Link>
+        <Link to="/news" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">News</Link>
+        <Link to="/sponsors" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50" > Sponsors </Link>
+        <Link to="/contact" className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Contact Us</Link>
             </div>
             <div className="py-6">
-              <a
-                href="#"
-                className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
-              >
-                Log in
-              </a>
+              <Link to="/login" className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Log in</Link>
             </div>
           </div>
         </div>

@@ -249,9 +249,8 @@ function Home() {
       <Swiper
         modules={[Navigation, Pagination, Autoplay,EffectCoverflow]}
         // spaceBetween={20}
-        slidesPerView={true}
-        grabCursor = {true}
-        centeredSlides={true}
+        spaceBetween={20}
+        slidesPerView={3}
         breakpoints={{
           640: { slidesPerView: 1 },
           768: { slidesPerView: 2 },

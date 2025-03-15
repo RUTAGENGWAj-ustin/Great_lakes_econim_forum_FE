@@ -1,5 +1,6 @@
 
-import { useState } from "react";
+import { useState,useContext } from "react";
+import { GlobalDataContext } from "../context/GlobalDataContext";
 
 const images = [
   { event: "concert", imgUrl: "/speakers/brarirwa.png" },
@@ -21,6 +22,7 @@ const images = [
 ];
 
 function Sponsors() {
+     const { sponsorsData, isLoading,deleteSponsor,backendUrl } = useContext(GlobalDataContext);
 
   const [filterEvent, setFilterEvent] = useState(""); // For filtering
   const [filteredImages, setFilteredImages] = useState(images); // Displayed images
@@ -44,10 +46,10 @@ function Sponsors() {
 
     {/* Display images */}
     <div className="grid gap-4 grid-cols-5 justify-center">
-      {filteredImages.length > 0 ? (
-        filteredImages.map((item, index) => (
-          <div key={index} className="max-w-[650px] max-h-[650px] shadow-1xl">
-            <img src={item.imgUrl} alt={item.event} className="h-40 w-full shadow-1xl" />
+      {sponsorsData?.length > 0 ? (
+        sponsorsData?.map((item, index) => (
+          <div key={index._id} className="max-w-[650px] max-h-[650px] shadow-1xl">
+            <img src={backendUrl+item.logo} alt={item._id} className="h-40 w-full shadow-1xl" />
           </div>
         ))
       ) : (
