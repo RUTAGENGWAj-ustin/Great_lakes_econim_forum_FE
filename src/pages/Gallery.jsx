@@ -43,7 +43,7 @@ function Gallery() {
       </div>
 
       {/* Display images */}
-      <div className="grid gap-4 grid-cols-3 justify-center">
+      <div className="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3">
         {filteredImages?.length > 0 ? (
           filteredImages.map((item, index) => (
             <div key={index} className="max-w-[650px] max-h-[650px]">
