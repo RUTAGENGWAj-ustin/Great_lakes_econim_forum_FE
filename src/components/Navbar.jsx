@@ -58,12 +58,13 @@ function Navbar() {
     <header className="fixed top-0 right-0 left-0 bg-white z-10">
     <nav aria-label="Global" className="mx-auto flex max-w-full items-center justify-between p-6 lg:px-8">
       <div className="flex lg:flex-1">
-        <a href="#" className="-m-1.5 p-1.5">
+        <a href="/" className="-m-1.5 p-1.5">
           <span className="sr-only">Great Lake Economic Forum</span>
           <img
             alt=""
             src="../public/logo/logo.png"
             className="h-18 w-auto"
+            
           />
         </a>
       </div>

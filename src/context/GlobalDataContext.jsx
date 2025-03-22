@@ -17,6 +17,12 @@ const fetchData = async (endpoint) => {
   const response = await axios.get(`${API_BASE_URL}/${endpoint}`);
   return response.data;
 };
+const fetchProfile = async (endpoint) => {
+  const response = await axios.get(`${API_BASE_URL}/${endpoint}`,{
+    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+  });
+  return response.data;
+};
 
   // Function to fetch a single event by ID
   const fetchSingleEvent = async (eventId) => {
@@ -60,9 +66,19 @@ const createQuery = (key, endpoint) =>
       Notiflix.Notify.failure(errorMessage);
     },
   });
+  const createQueryProfile = (key, endpoint) =>
+    useQuery({
+      queryKey: [key],
+      queryFn: () => fetchProfile(endpoint),
+      onError: (error) => {
+        const errorMessage = error?.response?.data?.error || `Failed to fetch ${key}.`;
+        Notiflix.Notify.failure(errorMessage);
+      },
+    });
 
 export function GlobalDataProvider({ children }) {
-  const { data: authData, isLoading: authLoading, error: authError } = createQuery("authData", "auth");
+  const { data: authData, isLoading: authLoading, error: authError } = createQueryProfile("authData", "auth/users");
+  const { data: authprofileData, isLoading: authprofileLoading, error: authprofileError } = createQueryProfile("authprofileData", "auth/profile");
   const { data: eventsData, isLoading: eventsLoading, error: eventsError } = createQuery("eventsData", "events");
   const { data: speakersData, isLoading: speakersLoading, error: speakersError } = createQuery("speakersData", "speakers");
 
@@ -112,12 +128,12 @@ export function GlobalDataProvider({ children }) {
   const deleteAdvert = createDelete("adverts")
 
   const isLoading = [
-    authLoading, eventsLoading, speakersLoading, topicsLoading, newsLoading,advertLoading,
+    authLoading,authprofileLoading, eventsLoading, speakersLoading, topicsLoading, newsLoading,advertLoading,
     sponsorsLoading, paymentsLoading, rsvpLoading, categoryLoading, galleryLoading
   ].some(Boolean);
 
   const hasError = [
-    authError, eventsError, speakersError, topicsError, newsError,advertError,
+    authError,authprofileError, eventsError, speakersError, topicsError, newsError,advertError,
     sponsorsError, paymentsError, rsvpError, categoryError, galleryError
   ].some(Boolean);
 
@@ -133,11 +149,13 @@ export function GlobalDataProvider({ children }) {
 
   const backendUrl = "http://localhost:5000/"; 
   const backendUrl2 = "http://localhost:5000"; 
+  console.log("authprofileData:",authprofileData);
+  
 
   return (
     <GlobalDataContext.Provider
       value={{
-        authData, eventsData, speakersData, topicsData, newsData,advertData,
+        authData,authprofileData, eventsData, speakersData, topicsData, newsData,advertData,
         sponsorsData, paymentsData, rsvpData, categoryData, galleryData,
         isLoading, hasError,
         postAuth, postEvent, postSpeaker,postAdvert, postTopic, postNews, postSponsor, postPayment, postRsvp, postCategory, postGallery,

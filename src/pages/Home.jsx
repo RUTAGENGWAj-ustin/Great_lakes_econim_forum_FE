@@ -10,7 +10,7 @@ import { Clock, Dot } from 'lucide-react';
 
 
 function Home() {
-  const { eventsData, isLoading, backendUrl2,speakersData,backendUrl,newsData,advertData } = useContext(GlobalDataContext);
+  const { eventsData, isLoading, backendUrl2,speakersData,backendUrl,newsData,advertData, sponsorsData } = useContext(GlobalDataContext);
 
   const upcomingEvents = eventsData?.filter((event) => new Date(event.date) > new Date());
   const upcomingNews = newsData?.filter((news) => new Date(news.date) > new Date());
@@ -78,6 +78,7 @@ function Home() {
         // navigation
         pagination={{ clickable: true }}
         autoplay={{ delay: 6000, disableOnInteraction: true }}
+        speed={1500}
         loop
       >
         {advertData?.map((advert) => (
@@ -294,6 +295,71 @@ function Home() {
       <div className=" hidden lg:flex lg:flex-1 lg:justify-center">
         <a href="/news" className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-md">
           News & Blogs <span aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+      </div>
+    </div>
+    </div>
+
+    <div className="max-h-500">
+    <div className='grid w-full flex justify-center items-center'>
+          <div className='w-fit'>
+          <h1 className='text-3xl text-center text-green-900 font-bold'>LATEST <span className='text-green-600'>NEWS</span></h1>
+
+          <p className='mt-10 max-w-100 text-center'>Join us for thrilling events! Live music, workshops, art exhibits, and more! Mark your calendars and don't miss out!</p>
+          </div>
+        </div>
+
+        <div className="w-full max-w-7xl mx-auto py-6">
+      <Swiper
+        modules={[EffectCoverflow, Autoplay]} // Enable Coverflow and Autoplay
+        effect="coverflow" // Apply the coverflow effect
+        grabCursor={true} // Show grab cursor on hover
+        centeredSlides={true} // Center the active slide
+        slidesPerView={3} // Number of slides visible at once
+        coverflowEffect={{
+          rotate: 50, // Rotate each slide
+          stretch: 0, // Stretch space between slides
+          depth: 100, // Depth of the slide (perspective)
+          modifier: 1, // Effect multiplier
+          slideShadows: true, // Enable slide shadows
+        }}
+        autoplay={{
+          delay: 2000, // Delay between slides in milliseconds
+          disableOnInteraction: false, // Continue autoplay even when user interacts
+        }}
+        loop={true}
+
+    
+      >
+       {sponsorsData?.length > 0 ? (
+        sponsorsData.map((item, index) => (
+          <SwiperSlide key={item._id}>
+            <div className="max-w-[650px] max-h-[650px] shadow-1xl">
+              <img
+                src={backendUrl + item.logo}
+                alt={item._id}
+                className="h-40 w-full shadow-1xl object-cover"
+              />
+            </div>
+          </SwiperSlide>
+        ))
+      ) : (
+        <p className="text-center col-span-3">No images found for this event.</p>
+      )}
+        {/* <div className="swiper-controler">
+          <div className="swiper-button-prev slider-arrow">
+            <ion-icon name="arrow-back-outline"></ion-icon>
+          </div>
+          <div className="swiper-button-next slider-arrow">
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </div>
+        </div> */}
+      </Swiper>
+      <div className='mt-10'>
+      <div className=" hidden lg:flex lg:flex-1 lg:justify-center">
+        <a href="/sponsors" className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded-md">
+          All Sponsors <span aria-hidden="true">&rarr;</span>
         </a>
       </div>
       </div>

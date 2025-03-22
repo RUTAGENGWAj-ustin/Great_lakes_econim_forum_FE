@@ -1,10 +1,23 @@
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react"
+import { MoreVertical, ChevronLast, ChevronFirst, LogOut } from "lucide-react"
 import { useContext, createContext, useState } from "react"
+import { GlobalDataContext } from "../context/GlobalDataContext";
+import { useNavigate } from "react-router-dom";
 
 const SidebarContext = createContext()
 
 export default function Sidebar({ children }) {
+  const {authprofileData} = useContext(GlobalDataContext);
   const [expanded, setExpanded] = useState(true)
+const navigate = useNavigate();
+
+
+  const handleLogout = () => {
+    // 1. Clear the user's token or session data
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token'); 
+    navigate('/login'); 
+  
+};
   
   return (
     <aside className="h-screen">
@@ -16,6 +29,7 @@ export default function Sidebar({ children }) {
               expanded ? 'w-32 ': 'w-0'
             }`}
             alt=""
+            onClick={()=> navigate('/') }
           />
           <button
             onClick={() => setExpanded((curr) => !curr)}
@@ -42,10 +56,13 @@ export default function Sidebar({ children }) {
           `}
           >
             <div className="leading-4">
-              <h4 className="font-semibold">John Doe</h4>
-              <span className="text-xs text-gray-600">johndoe@gmail.com</span>
+              <h4 className="font-semibold">Role:{authprofileData?.role}</h4>
+              <span className="text-xs text-gray-600">{authprofileData?.email}</span>
             </div>
-            <MoreVertical size={20} />
+           <button 
+           className="p-1.5 rounded-lg bg-gray-50 hover:bg-red-100 text-red-600"
+           onClick={() => handleLogout()}
+           ><LogOut size={20} /></button>
           </div>
         </div>
       </nav>
