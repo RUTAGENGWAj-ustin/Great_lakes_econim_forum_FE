@@ -62,7 +62,7 @@ function Navbar() {
           <span className="sr-only">Great Lake Economic Forum</span>
           <img
             alt=""
-            src="../public/logo/logo.png"
+            src="../logo/logo.png"
             className="h-18 w-auto"
             
           />
@@ -134,7 +134,7 @@ function Navbar() {
             <span className="sr-only">Great Lakes Economic Forum</span>
             <img
               alt=""
-              src="../public/logo/logo.png"
+              src="../logo/logo.png"
               className="h-8 w-auto"
             />
           </a>
