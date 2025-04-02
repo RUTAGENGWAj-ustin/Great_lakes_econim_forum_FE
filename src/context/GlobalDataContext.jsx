@@ -10,7 +10,7 @@ export const useGlobalDataContext = () => {
   return useContext(GlobalDataContext);
 };
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://great-lakes-econim-forum-be.onrender.com/api";
 
 // Function to fetch data
 const fetchData = async (endpoint) => {
@@ -147,8 +147,8 @@ export function GlobalDataProvider({ children }) {
       },
     });
 
-  const backendUrl = "http://localhost:5000/"; 
-  const backendUrl2 = "http://localhost:5000"; 
+  const backendUrl = "https://great-lakes-econim-forum-be.onrender.com/"; 
+  const backendUrl2 = "https://great-lakes-econim-forum-be.onrender.com"; 
   console.log("authprofileData:",authprofileData);
   
 
