@@ -96,7 +96,7 @@ function CreateGallery({ setShowModal }) {
               className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
               <option value="">Choose an Event</option>
-              {eventsData.map((event) => (
+              {eventsData?.map((event) => (
                 <option key={event._id} value={event._id}>
                   {event.name}
                 </option>

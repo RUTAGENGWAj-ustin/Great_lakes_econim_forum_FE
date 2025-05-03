@@ -137,7 +137,7 @@ const CreateEvent = ({ setShowModal }) => {
               <select name="category" value={formData.category} onChange={handleChange} required
                 className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none">
                 <option value="">Select Category</option>
-                {categoryData.map((cat) => (
+                {categoryData?.map((cat) => (
                   <option key={cat._id} value={cat._id}>{cat.name}</option>
                 ))}
               </select>
@@ -175,7 +175,7 @@ const CreateEvent = ({ setShowModal }) => {
                 <label className="block text-gray-700 font-medium">{field.label}</label>
                 <select multiple name={field.name} onChange={(e) => handleMultiSelect(e, field.name)}
                   className="w-full p-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none">
-                  {field.options.map((option) => (
+                  {field?.options?.map((option) => (
                     <option key={option._id} value={option._id}>{option.name}</option>
                   ))}
                 </select>
@@ -185,7 +185,7 @@ const CreateEvent = ({ setShowModal }) => {
             {/* Pricing Section */}
             <div>
               <label className="block text-gray-700 font-medium">Pricing</label>
-              {formData.pricing.map((pricing, index) => (
+              {formData?.pricing?.map((pricing, index) => (
                 <div key={index} className="mb-4 p-4 border border-gray-300 rounded-lg">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
